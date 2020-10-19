@@ -2,23 +2,25 @@
 
 outputfile="docker-compose.yml"
 inputfiles=""
+backupdir="backups"
 
-# define yq shorthand
 yq() {
     docker run --rm -i -v ${PWD}:/workdir mikefarah/yq yq $@
 }
 
-for x in `ls`; do
-    # create backup of existing docker-compose.yml
-    if [[ $x == $outputfile ]]; then
+backup() {
+    if [ -f $outputfile ]; then
         date=`date +"%Y%m%d-%H%M%S"`
-        cp $x "docker-compose.$date.bak.yml"
+        mkdir -p $backupdir
+        cp $outputfile "${backupdir}/docker-compose.$date.yml"
     fi;
-    # get relevant files
+}
+
+for x in `ls`; do
     if [[ $x =~ docker-compose\.([a-zA-Z0-9]*)\.y(a|)ml ]]; then
         inputfiles+=" $x"
     fi;
 done
 
-# create new docker-compose.yml
+backup
 yq merge $inputfiles > $outputfile;
