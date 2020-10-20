@@ -1,26 +1,44 @@
 #!/bin/bash
 
-outputfile="docker-compose.yml"
-inputfiles=""
-backupdir="backups"
+initialContent=""
+inputFiles=""
+tempFile="docker-compose.yml.tmp"
+outputFile="docker-compose.yml"
+backupDir="backups"
 
-yq() {
-    docker run --rm -i -v ${PWD}:/workdir mikefarah/yq yq $@
-}
+if [ -f $outputFile ]; then
+    initialContent=`cat ${outputFile}`
+fi
 
-backup() {
-    if [ -f $outputfile ]; then
-        date=`date +"%Y%m%d-%H%M%S"`
-        mkdir -p $backupdir
-        cp $outputfile "${backupdir}/docker-compose.$date.yml"
-    fi;
-}
-
+inputFiles=""
 for x in `ls`; do
     if [[ $x =~ docker-compose\.([a-zA-Z0-9]*)\.y(a|)ml ]]; then
-        inputfiles+=" $x"
-    fi;
+        inputFiles+=" $x"
+    fi
 done
+if [[ $inputFiles == "" ]]; then
+    echo "No input files found. Exiting."
+    exit
+fi
 
-backup
-yq merge $inputfiles > $outputfile;
+echo "Merging:${inputFiles}"
+docker run --rm -i -v ${PWD}:/workdir mikefarah/yq yq merge $inputFiles > "${tempFile}"
+mergeContent=`cat ${tempFile}`
+
+if [[ $mergeContent == $initialContent ]]; then
+    rm $tempFile
+    echo "No changes detected. Exiting."
+    exit
+fi
+
+if [[ $initialContent != "" ]]; then
+    echo "Creating backup of existing ${outputFile}."
+    date=`date +"%Y%m%d-%H%M%S"`
+    mkdir -p $backupDir
+    cp $outputFile "${backupDir}/docker-compose.${date}.yml"
+fi
+
+echo "Updating ${outputFile}."
+cp $tempFile $outputFile;
+rm $tempFile
+echo "Done."
