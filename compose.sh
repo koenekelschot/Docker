@@ -4,13 +4,12 @@ initialContent=""
 inputFiles=""
 tempFile="docker-compose.yml.tmp"
 outputFile="docker-compose.yml"
-backupDir="backups"
+backupDir="compose-backups"
 
 if [ -f $outputFile ]; then
     initialContent=`cat ${outputFile}`
 fi
 
-inputFiles=""
 for x in `ls`; do
     if [[ $x =~ docker-compose\.([a-zA-Z0-9]*)\.y(a|)ml ]]; then
         inputFiles+=" $x"

@@ -1,4 +1,4 @@
-backups/*
+compose-backups/*
 configs/*
 .env
 docker-compose.yml
