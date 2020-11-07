@@ -3,6 +3,8 @@ services:
   homeassistant:
     container_name: homeassistant
     image: homeassistant/home-assistant:${HA_VERSION}
+    depends_on:
+      - pihole
     restart: unless-stopped
     environment:
       - PUID=${PUID}
