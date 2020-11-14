@@ -18,9 +18,9 @@ services:
         redis['enable'] = false
         gitlab_rails['redis_host'] = 'redis'
         gitlab_rails['redis_port'] = '6379'
-        #external_url 'http://gitlabtest.muc'
+        external_url 'http://${SERVER_IPv4}:8082'
     ports:
-      - 8082:80
+      - 8082:8082
 #      - 8444:443
 #      - 22:22
     volumes:
