@@ -1,0 +1,1 @@
+All scripts in this folder will be executed by `../deploy.sh`.

@@ -1,0 +1,16 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script: printenv
+
+test:
+  stage: test
+  script: echo "stage test"
+
+deploy:
+  stage: deploy
+  script: echo "stage deploy"
