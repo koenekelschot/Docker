@@ -1,4 +1,0 @@
-Dit is een test voor variabelen
-
-${TZ}
-${HA_VERSION}

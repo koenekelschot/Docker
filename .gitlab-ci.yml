@@ -1,3 +1,6 @@
+image: 
+  name: docker/compose:1.26.2
+
 stages:
   - build
   - test
@@ -5,12 +8,19 @@ stages:
 
 build:
   stage: build
-  script: printenv
+  artifacts:
+    paths:
+      - cron/*
+      - projects/*
+      - docker-compose.yml
+  script: sh ./build.sh
 
 test:
   stage: test
-  script: echo "stage test"
+  script: docker-compose config
 
 deploy:
   stage: deploy
+  only:
+  - master
   script: echo "stage deploy"
