@@ -1,6 +1,10 @@
 image: 
   name: docker/compose:1.26.2
 
+before_script:
+  # https://unix.stackexchange.com/a/417661
+  - apk update && apk add openssh sshpass
+
 stages:
   - build
   - test
@@ -10,8 +14,8 @@ build:
   stage: build
   artifacts:
     paths:
-      - cron/*
-      - projects/*
+      - cron
+      - projects
       - docker-compose.yml
   script: sh ./build.sh
 
@@ -22,5 +26,6 @@ test:
 deploy:
   stage: deploy
   only:
-  - master
-  script: echo "stage deploy"
+    - master
+  script: 
+    - sh ./deploy-gitlab.sh

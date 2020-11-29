@@ -1,13 +1,4 @@
 #!/bin/bash
 
-echo "Deploy started"
-cd ./deploy
-
-for file in `ls`; do
-    if [[ $file =~ ^([0-9]*)-(.*)\.sh$ ]]; then
-        echo "Executing "$file
-        sh $file
-    else
-        echo "Skipping "$file
-    fi
-done
+find $PWD -mindepth 2 -name "deploy.sh" -exec sh {} \;
+/usr/local/bin/docker-compose up -d --remove-orphans

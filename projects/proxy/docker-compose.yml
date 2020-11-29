@@ -7,7 +7,7 @@ swag:
     - PUID=${PUID}
     - PGID=${PGID}
     - TZ=${TZ}
-    - URL=home.ekelschot.net
+    - URL=${HA_DOMAIN}
     - VALIDATION=http
     - ONLY_SUBDOMAINS=false
   volumes:

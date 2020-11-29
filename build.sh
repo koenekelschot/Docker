@@ -2,6 +2,8 @@
 
 import_env() {
     echo "Import .env variables"
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER/.env env-imported
+
     # https://stackoverflow.com/a/24957725
     # `s/^ *//`  => left trim
     # `s/ *$//`  => right trim
@@ -13,17 +15,13 @@ import_env() {
     # sed 's/.$//'               # assumes that all lines end with CR/LF
     # sed 's/^M$//'              # in bash/tcsh, press Ctrl-V then Ctrl-M
     # sed 's/\x0D$//'            # works on ssed, gsed 3.02.80 or higher
-    sed 's/\x0D$//; s/^ *//; s/ *$//; /^$/d; /^#/d' /etc/host/docker/.env > env-vars
+    sed 's/\x0D$//; s/^ *//; s/ *$//; /^$/d; /^#/d' env-imported > env-cleaned
+    rm env-imported
 
     echo "Generate variable replacements"
     # https://stackoverflow.com/a/2915592
-    sed -e 's/^/s|${/g' -e 's/=/}\|/g' -e 's/$/\|/g' env-vars > replace.sed
-}
-
-delete_temp_files() {
-    echo "Deleting temporary files"
-    rm env-vars
-    rm replace.sed
+    sed -e 's/^/s|${/g' -e 's/=/}\|/g' -e 's/$/\|/g' env-cleaned > replace.sed
+    rm env-cleaned
 }
 
 replace_variables() {
@@ -53,6 +51,7 @@ create_compose() {
     return 0
 }
 
+export SSHPASS=$SSH_PASS
 import_env
 
 replace_variables "*.conf"
@@ -67,7 +66,7 @@ yml=$?
 create_compose
 compose=$?
 
-delete_temp_files
+rm replace.sed
 
 if  [ $conf != 0 ] || 
     [ $toml != 0 ] || 
