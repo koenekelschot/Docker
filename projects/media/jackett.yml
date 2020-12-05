@@ -1,0 +1,19 @@
+jackett:
+  container_name: jackett
+  image: linuxserver/jackett:latest
+  restart: unless-stopped
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${DOWNLOADS}/torrents:/torrents # place where to put .torrent files for manual download
+    - ${CONFIGS}:/config # config files (Jackett is appended)
+  network_mode: host
+  ports:
+    - 9117:9117
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9117/"]
+    interval: 30s
+    timeout: 10s

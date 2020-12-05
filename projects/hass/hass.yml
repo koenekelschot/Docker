@@ -1,6 +1,6 @@
 homeassistant:
   container_name: homeassistant
-  image: homeassistant/home-assistant:${HA_VERSION}
+  image: homeassistant/home-assistant:0.116.4
   depends_on:
     - pihole
   restart: unless-stopped

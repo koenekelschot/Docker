@@ -1,0 +1,20 @@
+sonarr:
+  container_name: sonarr
+  image: linuxserver/sonarr:latest
+  restart: unless-stopped
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/sonarr:/config # config files
+    - ${MEDIA}/Series:/series # tv shows folder
+    - ${DOWNLOADS}:/downloads # download folder
+  network_mode: host
+  ports:
+    - 8989:8989
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8989/"]
+    interval: 30s
+    timeout: 10s

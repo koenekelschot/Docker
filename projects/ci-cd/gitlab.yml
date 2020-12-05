@@ -38,12 +38,3 @@ gitlab-runner:
     - ${CONFIGS}/gitlab-runner:/etc/gitlab-runner
     - ./projects/ci-cd/gitlab-runner.toml:/etc/gitlab-runner/config.toml #hacky, but works on my machine
   restart: unless-stopped
-
-redis:
-  image: redis:6.0.9-alpine
-  container_name: redis
-  ports:
-    - 6379:6379
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/redis:/data

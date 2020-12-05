@@ -1,0 +1,8 @@
+redis:
+  image: redis:6.0.9-alpine
+  container_name: redis
+  ports:
+    - 6379:6379
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/redis:/data

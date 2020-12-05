@@ -1,0 +1,18 @@
+deluge:
+  container_name: deluge
+  image: linuxserver/deluge:latest
+  restart: unless-stopped
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  volumes:
+    - ${DOWNLOADS}:/downloads # downloads folder
+    - ${CONFIGS}/deluge:/config # config files
+  network_mode: host
+  ports:
+    - 8112:8112
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8112/"]
+    interval: 30s
+    timeout: 10s
