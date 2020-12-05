@@ -1,0 +1,20 @@
+swag:
+  image: ghcr.io/linuxserver/swag
+  container_name: swag
+  cap_add:
+    - NET_ADMIN
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - URL=${HA_DOMAIN}
+    - VALIDATION=http
+    - ONLY_SUBDOMAINS=false
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/swag:/config
+    - ./projects/proxy/homeassistant.proxy.conf:/config/nginx/proxy-confs/homeassistant.subdomain.conf #hacky, but works on my machine
+  ports:
+    - 8443:443
+    - 8080:80
+  restart: unless-stopped

@@ -1,0 +1,16 @@
+homeassistant:
+  container_name: homeassistant
+  image: homeassistant/home-assistant:${HA_VERSION}
+  depends_on:
+    - pihole
+  restart: unless-stopped
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  network_mode: host
+  ports:
+    - 8123:8123
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/homeassistant:/config

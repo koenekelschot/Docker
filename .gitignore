@@ -1,4 +1,4 @@
 compose-backups/*
 configs/*
+!configs/readme.md
 .env
-docker-compose.yml

@@ -1,0 +1,85 @@
+gitea:
+  image: gitea/gitea:latest
+  container_name: gitea
+  depends_on:
+    - postgresql
+  environment:
+    - USER_UID=${PUID}
+    - USER_GID=${PGID}
+    - RUN_MODE=prod
+    - DB_TYPE=postgres
+    - DB_HOST=postgresql:5432
+    - DB_NAME=gitea
+    - DB_USER=${GITEA_DB_USER}
+    - DB_PASSWD=${GITEA_DB_PASSWD}
+    - DISABLE_SSH=true
+    - DOMAIN=${SERVER_IPv4}
+  ports:
+    - 3000:3000
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/gitea:/data
+  restart: unless-stopped
+
+jenkins:
+  image: jenkinsci/blueocean:latest
+  container_name: jenkins
+  user: root
+  ports:
+    - 8082:8080
+#      - "8443:8443"
+    - 50000:50000
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/jenkins:/var/jenkins_home
+    - /var/run/docker.sock:/var/run/docker.sock
+
+gitlab:
+  image: gitlab/gitlab-ce:13.5.4-ce.0
+  container_name: gitlab
+  depends_on:
+    - redis
+    - postgresql
+  environment:
+    GITLAB_OMNIBUS_CONFIG: |
+      postgresql['enable'] = false
+      gitlab_rails['db_username'] = '${GITLAB_DB_USER}'
+      gitlab_rails['db_password'] = '${GITLAB_DB_PASS}'
+      gitlab_rails['db_host'] = 'postgresql'
+      gitlab_rails['db_database'] = 'gitlab'
+      gitlab_rails['db_adapter'] = 'postgresql'
+      gitlab_rails['db_encoding'] = 'utf8'
+      redis['enable'] = false
+      gitlab_rails['redis_host'] = 'redis'
+      gitlab_rails['redis_port'] = '6379'
+      external_url 'http://${SERVER_IPv4}:8083'
+  ports:
+    - 8083:8083
+#      - 8444:443
+#      - 22:22
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/gitlab/config:/etc/gitlab
+    - ${CONFIGS}/gitlab/backup:/var/opt/gitlab/backups
+  restart: unless-stopped
+
+gitlab-runner:
+  container_name: gitlab-runner
+  image: gitlab/gitlab-runner:alpine
+  ports:
+    - 8093:8093
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/gitlab-runner:/etc/gitlab-runner
+    - ./projects/ci-cd/gitlab-runner.toml:/etc/gitlab-runner/gitlab-runner.toml #hacky, but works on my machine
+  restart: unless-stopped
+
+redis:
+  image: redis:6.0.9-alpine
+  container_name: redis
+  ports:
+    - 6379:6379
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${CONFIGS}/redis:/data
