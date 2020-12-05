@@ -4,6 +4,12 @@ import_env() {
     echo "Import .env variables"
     sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER/.env env-imported
 
+    echo "Import HomeAssistant version"
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER/configs/homeassistant/.HA_VERSION .HA_VERSION
+    # https://stackoverflow.com/a/3005476
+    printf "\nHA_VERSION=" | cat - .HA_VERSION >> env-imported
+    rm .HA_VERSION
+
     # https://stackoverflow.com/a/24957725
     # `s/^ *//`  => left trim
     # `s/ *$//`  => right trim
