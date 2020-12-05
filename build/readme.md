@@ -1,1 +1,0 @@
-All scripts in this folder will be executed by `../build.sh`.
