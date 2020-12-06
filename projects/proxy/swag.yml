@@ -10,10 +10,10 @@ swag:
     - URL=${HA_DOMAIN}
     - VALIDATION=http
     - ONLY_SUBDOMAINS=false
+    - MAXMINDDB_LICENSE_KEY=${GEO_LICENSE}
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/swag:/config
-    - ./projects/proxy/homeassistant.proxy.conf:/config/nginx/proxy-confs/homeassistant.subdomain.conf #hacky, but works on my machine
   ports:
     - 8443:443
     - 8080:80
