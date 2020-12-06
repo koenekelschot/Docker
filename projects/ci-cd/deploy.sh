@@ -1,3 +1,10 @@
-# run as root 
+ensure_folder() {
+    test -d "$1" || mkdir -p "$1"
+}
+
 echo "Deploy redis"
-chown -R 999:999 /volume1/docker/volumes/redis
+ensure_folder ${VOLUMES}/redis
+chown -R 999:999 ${VOLUMES}/redis
+
+echo "Deploy gitlab"
+ensure_folder ${VOLUMES}/gitlab-runner

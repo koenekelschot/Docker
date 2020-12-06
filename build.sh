@@ -69,6 +69,9 @@ toml=$?
 replace_variables "*.yml"
 yml=$?
 
+replace_variables "deploy.sh"
+sh=$?
+
 create_compose
 compose=$?
 
@@ -77,6 +80,7 @@ rm replace.sed
 if  [ $conf != 0 ] || 
     [ $toml != 0 ] || 
     [ $yml != 0 ] || 
+    [ $sh != 0 ] || 
     [ $compose != 0 ]; then
     exit 1
 fi
