@@ -4,9 +4,8 @@ ensure_folder() {
 
 echo "Deploy postgresql"
 ensure_folder ${VOLUMES}/postgresql
-chown -R 999:999 ${VOLUMES}/postgresql
-if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' postgresql )" == "running" ]; then
-    /usr/local/bin/docker restart postgresql
+if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' postgresql )" != "running" ]; then
+    chown -R 999:999 ${VOLUMES}/postgresql
 fi
 
 echo "Deploy pgadmin"

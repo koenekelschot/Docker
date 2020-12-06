@@ -11,10 +11,11 @@ swag:
     - VALIDATION=http
     - ONLY_SUBDOMAINS=false
     - MAXMINDDB_LICENSE_KEY=${GEO_LICENSE}
+  network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/swag:/config
   ports:
-    - 8443:443
-    - 8080:80
+    - 443:443
+    - 80:80
   restart: unless-stopped
