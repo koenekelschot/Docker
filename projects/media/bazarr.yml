@@ -7,7 +7,7 @@ bazarr:
     - PGID=${PGID}
     - TZ=${TZ}
   volumes:
-    - ${CONFIGS}/bazarr:/config # config files
+    - ${VOLUMES}/bazarr:/config # config files
     - ${MEDIA}/Movies:/movies # movies folder
     - ${MEDIA}/Series:/series # tv shows folder
   network_mode: host

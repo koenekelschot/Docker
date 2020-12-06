@@ -8,7 +8,7 @@ deluge:
     - TZ=${TZ}
   volumes:
     - ${DOWNLOADS}:/downloads # downloads folder
-    - ${CONFIGS}/deluge:/config # config files
+    - ${VOLUMES}/deluge:/config # config files
   network_mode: host
   ports:
     - 8112:8112

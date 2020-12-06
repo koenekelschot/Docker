@@ -12,7 +12,7 @@ swag:
     - ONLY_SUBDOMAINS=false
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/swag:/config
+    - ${VOLUMES}/swag:/config
     - ./projects/proxy/homeassistant.proxy.conf:/config/nginx/proxy-confs/homeassistant.subdomain.conf #hacky, but works on my machine
   ports:
     - 8443:443

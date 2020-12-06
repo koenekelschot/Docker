@@ -13,4 +13,4 @@ homeassistant:
     - 8123:8123
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/homeassistant:/config
+    - ${VOLUMES}/homeassistant:/config

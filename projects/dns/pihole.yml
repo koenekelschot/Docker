@@ -19,8 +19,8 @@ pihole:
     - DNS2=''
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/pihole/pihole:/etc/pihole
-    - ${CONFIGS}/pihole/dnsmasq.d:/etc/dnsmasq.d
+    - ${VOLUMES}/pihole/pihole:/etc/pihole
+    - ${VOLUMES}/pihole/dnsmasq.d:/etc/dnsmasq.d
   network_mode: host
   dns:
     - 127.0.0.1

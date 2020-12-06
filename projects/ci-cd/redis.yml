@@ -5,4 +5,4 @@ redis:
     - 6379:6379
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/redis:/data
+    - ${VOLUMES}/redis:/data

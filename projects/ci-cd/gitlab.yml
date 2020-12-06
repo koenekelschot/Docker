@@ -23,8 +23,8 @@ gitlab:
 #      - 22:22
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/gitlab/config:/etc/gitlab
-    - ${CONFIGS}/gitlab/backup:/var/opt/gitlab/backups
+    - ${VOLUMES}/gitlab/config:/etc/gitlab
+    - ${VOLUMES}/gitlab/backup:/var/opt/gitlab/backups
   restart: unless-stopped
 
 gitlab-runner:
@@ -35,6 +35,6 @@ gitlab-runner:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/gitlab-runner:/etc/gitlab-runner
+    - ${VOLUMES}/gitlab-runner:/etc/gitlab-runner
     - ./projects/ci-cd/gitlab-runner.toml:/etc/gitlab-runner/config.toml #hacky, but works on my machine
   restart: unless-stopped

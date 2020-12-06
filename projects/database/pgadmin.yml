@@ -9,4 +9,4 @@ pgadmin:
     - 5050:5050
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${CONFIGS}/pgadmin:/var/lib/pgadmin
+    - ${VOLUMES}/pgadmin:/var/lib/pgadmin
