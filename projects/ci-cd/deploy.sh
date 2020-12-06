@@ -8,3 +8,4 @@ chown -R 999:999 ${VOLUMES}/redis
 
 echo "Deploy gitlab"
 ensure_folder ${VOLUMES}/gitlab-runner
+cp ./projects/ci-cd/gitlab-runner.toml ${VOLUMES}/gitlab-runner/config.toml

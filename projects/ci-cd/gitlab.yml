@@ -36,5 +36,4 @@ gitlab-runner:
     - /var/run/docker.sock:/var/run/docker.sock
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/gitlab-runner:/etc/gitlab-runner
-    - ./projects/ci-cd/gitlab-runner.toml:/etc/gitlab-runner/config.toml #hacky, but works on my machine
   restart: unless-stopped
