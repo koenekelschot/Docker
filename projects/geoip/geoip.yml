@@ -1,0 +1,12 @@
+geoip:
+  image: maxmindinc/geoipupdate:latest
+  container_name: geoip
+  environment:
+    - GEOIPUPDATE_ACCOUNT_ID=${GEOIP_ACCOUNT}
+    - GEOIPUPDATE_LICENSE_KEY=${GEOIP_LICENSE}
+    - GEOIPUPDATE_EDITION_IDS=GeoLite2-City
+    - GEOIPUPDATE_FREQUENCY=500
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${VOLUMES}/geoip:/usr/share/GeoIP
+  restart: unless-stopped

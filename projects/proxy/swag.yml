@@ -10,7 +10,7 @@ swag:
     - URL=${HA_DOMAIN}
     - VALIDATION=http
     - ONLY_SUBDOMAINS=false
-    - MAXMINDDB_LICENSE_KEY=${GEO_LICENSE}
+    - MAXMINDDB_LICENSE_KEY=${GEOIP_LICENSE}
   network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
   volumes:
     - /etc/localtime:/etc/localtime:ro
