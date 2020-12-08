@@ -10,6 +10,7 @@ nginx:
     - ${VOLUMES}/nginx/conf.d:/etc/nginx
     - ${VOLUMES}/nginx/logs:/logs
     - ${VOLUMES}/geoip:/config/geoip:ro
+    - ${VOLUMES}/certbot/webroot:/certbot/webroot:ro
   network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
   restart: unless-stopped
   ports:

@@ -11,6 +11,11 @@ fix_dsm() {
 echo "Deploy nginx"
 ensure_folder ${VOLUMES}/nginx/conf.d/sites
 ensure_folder ${VOLUMES}/nginx/logs
+touch ${VOLUMES}/nginx/logs/default-access.log
+touch ${VOLUMES}/nginx/logs/default-error.log
+touch ${VOLUMES}/nginx/logs/homeassistant-access.log
+touch ${VOLUMES}/nginx/logs/homeassistant-acme-challenge.log
+touch ${VOLUMES}/nginx/logs/homeassistant-error.log
 cp ./projects/nginx/nginx.conf ${VOLUMES}/nginx/conf.d/nginx.conf
 cp ./projects/nginx/geoip2.conf ${VOLUMES}/nginx/conf.d/geoip2.conf
 cp ./projects/nginx/proxy.conf ${VOLUMES}/nginx/conf.d/proxy.conf

@@ -66,6 +66,9 @@ conf=$?
 replace_variables "*.toml"
 toml=$?
 
+replace_variables "*.json"
+json=$?
+
 replace_variables "*.yml"
 yml=$?
 
@@ -79,6 +82,7 @@ rm replace.sed
 
 if  [ $conf != 0 ] || 
     [ $toml != 0 ] || 
+    [ $json != 0 ] || 
     [ $yml != 0 ] || 
     [ $sh != 0 ] || 
     [ $compose != 0 ]; then

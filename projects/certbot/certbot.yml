@@ -1,0 +1,14 @@
+certbot:
+  image: ${SERVER_IPv4}:5002/peckham/docker-certbot:0.1.20
+  container_name: certbot
+  environment:
+    - DOMAIN=${HA_DOMAIN}
+    - EMAIL=${CERTBOT_EMAIL}
+    - POST_HOOK=docker restart nginx
+    - IS_TEST='true'
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ${VOLUMES}/certbot/webroot:/webroot
+    - ${VOLUMES}/certbot/certs:/certs
+    - ${VOLUMES}/certbot/logs:/logs
