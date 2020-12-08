@@ -1,4 +1,4 @@
 compose-backups/*
-configs/*
-!configs/readme.md
+volumes/*
+!volumes/readme.md
 .env
