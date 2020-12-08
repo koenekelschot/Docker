@@ -1,0 +1,17 @@
+nginx:
+  #image: openresty/openresty:1.19.3.1-1-alpine
+  image: romanoffs/rs-nginx:1.17.6
+  container_name: nginx
+  environment:
+    - TZ=${TZ}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    #- ${VOLUMES}/nginx:/etc/nginx/conf.d
+    - ${VOLUMES}/nginx/conf.d:/etc/nginx
+    - ${VOLUMES}/nginx/logs:/logs
+    - ${VOLUMES}/geoip:/config/geoip:ro
+  network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
+  restart: unless-stopped
+  ports:
+    - 443:443
+    - 80:80

@@ -1,21 +1,22 @@
-swag:
-  image: ghcr.io/linuxserver/swag
-  container_name: swag
-  cap_add:
-    - NET_ADMIN
-  environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    - URL=${HA_DOMAIN}
-    - VALIDATION=http
-    - ONLY_SUBDOMAINS=false
-    - MAXMINDDB_LICENSE_KEY=${GEOIP_LICENSE}
-  network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/swag:/config
-  ports:
-    - 443:443
-    - 80:80
-  restart: unless-stopped
+#swag:
+#  image: ghcr.io/linuxserver/swag
+#  container_name: swag
+#  cap_add:
+#    - NET_ADMIN
+#  environment:
+#    - PUID=${PUID}
+#    - PGID=${PGID}
+#    - TZ=${TZ}
+#    - URL=${HA_DOMAIN}
+#    - VALIDATION=http
+#    - ONLY_SUBDOMAINS=false
+#    - MAXMINDDB_LICENSE_KEY=${GEOIP_LICENSE}
+#  network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
+#  volumes:
+#    - /etc/localtime:/etc/localtime:ro
+#    - ${VOLUMES}/swag:/config
+#  ports:
+#    - 443:443
+#    - 80:80
+#  restart: unless-stopped
+#
