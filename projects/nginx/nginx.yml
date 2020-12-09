@@ -1,16 +1,17 @@
 nginx:
-  #image: openresty/openresty:1.19.3.1-1-alpine
-  image: romanoffs/rs-nginx:1.17.6
+  image: ${SERVER_IPv4}:5002/peckham/nginx:alpine-3.12-r1
   container_name: nginx
   environment:
     - TZ=${TZ}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    #- ${VOLUMES}/nginx:/etc/nginx/conf.d
-    - ${VOLUMES}/nginx/conf.d:/etc/nginx
-    - ${VOLUMES}/nginx/logs:/logs
-    - ${VOLUMES}/geoip:/config/geoip:ro
-    - ${VOLUMES}/certbot/webroot:/certbot/webroot:ro
+    - ${VOLUMES}/nginx/logs:/var/log/nginx
+    - ${VOLUMES}/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ${VOLUMES}/nginx/dhparams.pem:/etc/nginx/dhparams.pem
+    - ${VOLUMES}/nginx/servers:/etc/nginx/servers
+    - ${VOLUMES}/geoip:/etc/geoip:ro
+    - ${VOLUMES}/certbot/webroot:/etc/certbot/webroot:ro
+    - ${VOLUMES}/certbot/certs/${HA_DOMAIN}:/etc/certbot/certs/homeassistant:ro
   network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
   restart: unless-stopped
   ports:
