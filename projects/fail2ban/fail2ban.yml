@@ -7,7 +7,7 @@ fail2ban:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/fail2ban:/data
-    #add more volumes containing logs :ro
+    - ${VOLUMES}/nginx/logs:/config/log/nginx:ro
   network_mode: host
   cap_add:
     - NET_ADMIN
