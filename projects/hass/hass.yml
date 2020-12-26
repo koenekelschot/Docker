@@ -3,6 +3,7 @@ homeassistant:
   image: homeassistant/home-assistant:${HA_VERSION}
   depends_on:
     - pihole
+    - deconz
   restart: unless-stopped
   environment:
     - PUID=${PUID}

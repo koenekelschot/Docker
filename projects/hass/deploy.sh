@@ -3,4 +3,5 @@ ensure_folder() {
 }
 
 echo "Deploy homeassistant"
+ensure_folder ${VOLUMES}/deconz
 ensure_folder ${VOLUMES}/homeassistant
