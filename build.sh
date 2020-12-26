@@ -2,10 +2,10 @@
 
 import_env() {
     echo "Import .env variables"
-    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER/.env env-imported
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER_DOCKER/.env env-imported
 
     echo "Import HomeAssistant version"
-    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER/volumes/homeassistant/.HA_VERSION .HA_VERSION
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER_HASS/.HA_VERSION .HA_VERSION
     # https://stackoverflow.com/a/3005476
     printf "\nHA_VERSION=" | cat - .HA_VERSION >> env-imported
     rm .HA_VERSION
