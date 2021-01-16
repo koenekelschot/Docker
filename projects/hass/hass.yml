@@ -2,7 +2,7 @@ homeassistant:
   container_name: homeassistant
   image: homeassistant/home-assistant:${HA_VERSION}
   depends_on:
-    - pihole
+    - adguard
     - deconz
   restart: unless-stopped
   environment:
