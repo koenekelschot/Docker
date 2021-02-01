@@ -9,7 +9,6 @@ fix_dsm() {
 }
 
 echo "Deploy nginx"
-#ensure_folder ${VOLUMES}/nginx/conf
 ensure_folder ${VOLUMES}/nginx/logs
 ensure_folder ${VOLUMES}/nginx/servers
 touch ${VOLUMES}/nginx/logs/default-access.log
@@ -19,12 +18,8 @@ touch ${VOLUMES}/nginx/logs/homeassistant-acme-challenge.log
 touch ${VOLUMES}/nginx/logs/homeassistant-error.log
 touch ${VOLUMES}/nginx/logs/homeassistant-ssl-access.log
 touch ${VOLUMES}/nginx/logs/homeassistant-ssl-error.log
-cp ./projects/nginx/nginx.conf ${VOLUMES}/nginx/nginx.conf
-cp ./projects/nginx/servers/* ${VOLUMES}/nginx/servers/
-# cp ./projects/nginx/servers/proxy.conf ${VOLUMES}/nginx/servers/proxy.conf
-# cp ./projects/nginx/servers/ssl.conf ${VOLUMES}/nginx/servers/ssl.conf
-# cp ./projects/nginx/servers/default.conf ${VOLUMES}/nginx/servers/default.conf
-# cp ./projects/nginx/servers/homeassistant.conf ${VOLUMES}/nginx/servers/homeassistant.conf
+cp ./projects/nginx/config/nginx.conf ${VOLUMES}/nginx/nginx.conf
+cp ./projects/nginx/config/servers/* ${VOLUMES}/nginx/servers/
 
 # Freeing up port 80 on Synology DSM, rewrites port 80 to 8880 and 443 to 8881
 # https://stackoverflow.com/a/55561347

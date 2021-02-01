@@ -3,7 +3,7 @@ ensure_folder() {
 }
 
 copy_config() {
-    cp ./projects/fail2ban/$1.conf ${VOLUMES}/fail2ban/$1
+    cp ./projects/fail2ban/config/$1.conf ${VOLUMES}/fail2ban/$1
 }
 
 echo "Deploy fail2ban"
