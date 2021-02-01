@@ -1,0 +1,2 @@
+# This file should end with an empty line
+0 6 * * * /renew.sh >> /logs/certbot.log 2>&1

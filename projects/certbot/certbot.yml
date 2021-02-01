@@ -1,5 +1,6 @@
 certbot:
-  image: ${SERVER_IPv4}:5002/peckham/docker-certbot:0.1.22
+  build:
+    context: ./projects/certbot/build
   container_name: certbot
   environment:
     - DOMAIN=${HA_DOMAIN}

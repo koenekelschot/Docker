@@ -1,5 +1,6 @@
 nginx:
-  image: ${SERVER_IPv4}:5002/peckham/nginx:alpine-3.12-r1
+  build:
+    context: ./projects/nginx/build
   container_name: nginx
   environment:
     - TZ=${TZ}
