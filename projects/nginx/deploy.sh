@@ -8,6 +8,17 @@ fix_dsm() {
     sed -i "s/443/8881/g" $1
 }
 
+ensure_certificates() {
+    # https://raw.githubusercontent.com/wmnnd/nginx-certbot/master/init-letsencrypt.sh
+    ensure_folder ${VOLUMES}/certbot/conf/live/$1
+    if [ ! -f ${VOLUMES}/certbot/conf/live/$1/fullchain.pem ]; then
+        /bin/openssl req -x509 -nodes -newkey rsa:4096 -days 1 \
+            -keyout "${VOLUMES}/certbot/conf/live/$1/privkey.pem" \
+            -out "${VOLUMES}/certbot/conf/live/$1/fullchain.pem" \
+            -subj "/CN=localhost"
+    fi
+}
+
 echo "Deploy nginx"
 ensure_folder ${VOLUMES}/nginx/logs
 ensure_folder ${VOLUMES}/nginx/servers
@@ -20,6 +31,7 @@ touch ${VOLUMES}/nginx/logs/homeassistant-ssl-access.log
 touch ${VOLUMES}/nginx/logs/homeassistant-ssl-error.log
 cp ./projects/nginx/config/nginx.conf ${VOLUMES}/nginx/nginx.conf
 cp ./projects/nginx/config/servers/* ${VOLUMES}/nginx/servers/
+ensure_certificates ${HA_DOMAIN}
 
 # Freeing up port 80 on Synology DSM, rewrites port 80 to 8880 and 443 to 8881
 # https://stackoverflow.com/a/55561347
@@ -29,9 +41,12 @@ if [ ! -f /usr/syno/share/nginx/server.mustache.bak ]; then
     fix_dsm /usr/syno/share/nginx/WWWService.mustache
     /usr/syno/sbin/synoservicecfg --restart nginx
 fi
+
 if [ ! -f ${VOLUMES}/nginx/dhparams.pem ]; then
     /bin/openssl dhparam -dsaparam -out ${VOLUMES}/nginx/dhparams.pem 4096
 fi
+
+# Reload config
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' nginx )" == "running" ]; then
     /usr/local/bin/docker restart nginx
 fi

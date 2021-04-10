@@ -2,8 +2,11 @@ nginx:
   build:
     context: ./projects/nginx/build
   container_name: nginx
+  depends_on:
+    - adguard
   environment:
     - TZ=${TZ}
+  command: "/bin/sh -c 'while :; do sleep 6h & wait $$!; nginx -s reload; done & nginx -g \"daemon off;\"'"
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/nginx/logs:/var/log/nginx
@@ -11,8 +14,8 @@ nginx:
     - ${VOLUMES}/nginx/dhparams.pem:/etc/nginx/dhparams.pem
     - ${VOLUMES}/nginx/servers:/etc/nginx/servers
     - ${VOLUMES}/geoip:/etc/geoip:ro
-    - ${VOLUMES}/certbot/webroot:/etc/certbot/webroot:ro
-    - ${VOLUMES}/certbot/certs/${HA_DOMAIN}:/etc/certbot/certs/homeassistant:ro
+    - ${VOLUMES}/certbot/webroot:/var/www/certbot:ro
+    - ${VOLUMES}/certbot/conf:/etc/letsencrypt:ro
   network_mode: host #default (bridged) won't forward real ip to nginx, so geo blocking won't work
   restart: unless-stopped
   ports:
