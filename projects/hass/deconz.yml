@@ -2,7 +2,6 @@ deconz:
   container_name: deconz
   image: marthoc/deconz:stable
   restart: unless-stopped
-  privileged: true
   environment:
     - TZ=${TZ}
     - DECONZ_WEB_PORT=8124
@@ -13,4 +12,4 @@ deconz:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/deconz:/root/.local/share/dresden-elektronik/deCONZ
   devices:
-    - /dev/ttyACM0
+    - /dev/ttyUSB-CONBEE:/dev/ttyACM0

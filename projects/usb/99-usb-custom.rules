@@ -1,0 +1,14 @@
+#author: Koen Ekelschot
+#/lib/udev/rules.d/99-usb-custom.rules
+
+#find devices with: lsusb -ciu
+#find serial of devices with: more /sys/bus/usb/devices/*/serial
+
+SUBSYSTEM!="tty", GOTO="tty_end"
+
+#CONBEE
+ATTRS{idVendor}=="1cf1", ATTRS{idProduct}=="0030", ATTRS{serial}=="DE2404523", SYMLINK+="ttyUSB-CONBEE"
+#RFLINK
+ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", ATTRS{serial}=="5503731323735171A2D0", SYMLINK+="ttyUSB-RFLINK"
+
+LABEL="tty_end"
