@@ -13,3 +13,7 @@ deconz:
     - ${VOLUMES}/deconz:/root/.local/share/dresden-elektronik/deCONZ
   devices:
     - /dev/ttyUSB-CONBEE:/dev/ttyACM0
+  healthcheck:
+    test: ls /dev/ttyACM0 >/dev/null && exit 0 || exit 1
+    interval: 10s
+    timeout: 5s

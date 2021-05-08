@@ -10,3 +10,7 @@ geoip:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/geoip:/usr/share/GeoIP
   restart: unless-stopped
+  healthcheck:
+    test: ls /usr/share/GeoIP/GeoLite2-City.mmdb >/dev/null && exit 0 || exit 1
+    interval: 10s
+    timeout: 5s

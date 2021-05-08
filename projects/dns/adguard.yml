@@ -11,3 +11,7 @@ adguard:
     - 53:53
     - 443:443
     - 3000:3000
+  healthcheck:
+    test: pgrep adguardhome >/dev/null && exit 0 || exit 1
+    interval: 15s
+    timeout: 5s
