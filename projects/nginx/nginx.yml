@@ -4,6 +4,8 @@ nginx:
   container_name: nginx
   depends_on:
     - adguard
+  labels:
+    - "com.centurylinklabs.watchtower.enable=false"
   environment:
     - TZ=${TZ}
   volumes:

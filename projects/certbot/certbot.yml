@@ -5,6 +5,8 @@ certbot:
   depends_on:
     - adguard
   restart: unless-stopped
+  labels:
+    - "com.centurylinklabs.watchtower.enable=false"
   environment:
     - DOMAIN=${HA_DOMAIN}
     - EMAIL=${CERTBOT_EMAIL}

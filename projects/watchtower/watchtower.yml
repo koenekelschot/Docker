@@ -1,0 +1,12 @@
+watchtower:
+  container_name: watchtower
+  image: containrrr/watchtower:latest
+  restart: unless-stopped
+  environment:
+    - TZ=${TZ}
+    - WATCHTOWER_SCHEDULE=0 0 4 * * *
+    - WATCHTOWER_TIMEOUT=30s
+    - WATCHTOWER_CLEANUP=true
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /var/run/docker.sock:/var/run/docker.sock

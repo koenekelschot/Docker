@@ -1,6 +1,6 @@
 bazarr:
   container_name: bazarr
-  image: linuxserver/bazarr
+  image: linuxserver/bazarr:latest
   restart: unless-stopped
   environment:
     - PUID=${PUID}

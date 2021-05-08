@@ -6,3 +6,4 @@ redis:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/redis:/data
+  stop_grace_period: 30s
