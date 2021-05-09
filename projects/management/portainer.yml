@@ -1,0 +1,11 @@
+portainer:
+  container_name: portainer
+  image: portainer/portainer-ce:latest
+  restart: unless-stopped
+  ports:
+    - 8000:8000
+    - 9000:9000
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ${VOLUMES}/portainer:/data
