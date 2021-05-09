@@ -7,6 +7,9 @@ watchtower:
     - WATCHTOWER_SCHEDULE=0 0 4 * * *
     - WATCHTOWER_TIMEOUT=30s
     - WATCHTOWER_CLEANUP=true
+    - WATCHTOWER_NOTIFICATIONS=shoutrrr
+    - WATCHTOWER_NOTIFICATION_URL=telegram://${TELEGRAM_API}@telegram?channels=${TELEGRAM_CHATID}
+    - WATCHTOWER_NO_STARTUP_MESSAGE=true
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /var/run/docker.sock:/var/run/docker.sock
