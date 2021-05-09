@@ -1,0 +1,21 @@
+folding-at-home:
+  container_name: folding-at-home
+  image: yurinnick/folding-at-home:latest
+  restart: unless-stopped
+  ports:
+    - 7396:7396
+    - 36330:36330
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - ALLOWED_HOSTS=172.18.0.1
+    - USER=${FAH_USER}
+    - PASSKEY=${FAH_PASS}
+    - TEAM=0
+    - ENABLE_GPU=false
+    - ENABLE_SMP=true
+    - POWER=medium
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${VOLUMES}/folding-at-home:/opt/fahclient/work
