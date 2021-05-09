@@ -6,6 +6,7 @@ empty_folder() {
 }
 
 copy_folder() {
+    empty_folder $1
     echo "Copying folder $1"
     sshpass -e scp -o StrictHostKeyChecking=no -r $1 $SSH_USER:$SSH_FOLDER_DOCKER/$1
 }
@@ -22,7 +23,6 @@ run_deploy() {
 
 export SSHPASS=$SSH_PASS
 copy_folder "cron"
-empty_folder "projects"
 copy_folder "projects"
 copy_file "deploy.sh"
 copy_file "docker-compose.yml"

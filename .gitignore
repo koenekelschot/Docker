@@ -1,4 +1,5 @@
-compose-backups/*
+logs/*
+!logs/readme.md
 volumes/*
 !volumes/readme.md
 .env

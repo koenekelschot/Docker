@@ -1,5 +1,5 @@
 log() {
-    local folder=/volume1/docker/cron/logs
+    local folder=/volume1/docker/logs
     local file=$folder/cron.log
 
     test -d $folder || mkdir -p $folder
