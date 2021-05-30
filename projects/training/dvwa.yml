@@ -3,6 +3,6 @@ damn-vulnerable-web-application:
   image: vulnerables/web-dvwa:latest
   restart: unless-stopped
   ports:
-    - 80:80
+    - 8080:80
   volumes:
     - /etc/localtime:/etc/localtime:ro

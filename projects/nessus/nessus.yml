@@ -12,4 +12,3 @@ nessus:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/nessus:/config
-
