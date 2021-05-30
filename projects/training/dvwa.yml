@@ -1,0 +1,8 @@
+damn-vulnerable-web-application:
+  container_name: dvwa
+  image: vulnerables/web-dvwa:latest
+  restart: unless-stopped
+  ports:
+    - 80:80
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
