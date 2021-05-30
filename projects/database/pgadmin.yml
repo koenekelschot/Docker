@@ -10,7 +10,7 @@ pgadmin:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/pgadmin:/var/lib/pgadmin
-  healthcheck:
-    test: wget --no-verbose --tries=1 --spider http://localhost:5050 || exit 1
-    interval: 10s
-    timeout: 5s
+#  healthcheck:
+#    test: wget --no-verbose --tries=1 --spider http://localhost:5050 || exit 1
+#    interval: 10s
+#    timeout: 5s

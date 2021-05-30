@@ -8,8 +8,8 @@ redis:
     - ${VOLUMES}/redis:/data
   stop_grace_period: 30s
   stop_signal: SIGQUIT
-  healthcheck:
-    test: redis-cli ping
-    interval: 10s
-    timeout: 3s
-    retries: 10
+#  healthcheck:
+#    test: redis-cli ping
+#    interval: 10s
+#    timeout: 3s
+#    retries: 10

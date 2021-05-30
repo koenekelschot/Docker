@@ -10,8 +10,8 @@ postgresql:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/postgresql:/var/lib/postgresql/data
   stop_grace_period: 30s #https://www.postgresql.org/docs/13/server-start.html
-  healthcheck:
-    test: pg_isready
-    interval: 10s
-    timeout: 3s
-    retries: 10
+#  healthcheck:
+#    test: pg_isready
+#    interval: 10s
+#    timeout: 3s
+#    retries: 10
