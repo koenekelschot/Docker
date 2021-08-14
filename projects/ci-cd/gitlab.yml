@@ -2,7 +2,6 @@ gitlab:
   image: gitlab/gitlab-ce:13.11.3-ce.0
   container_name: gitlab
   depends_on:
-    - redis
     - postgresql
   environment:
     GITLAB_OMNIBUS_CONFIG: |
@@ -13,9 +12,6 @@ gitlab:
       gitlab_rails['db_database'] = 'gitlab'
       gitlab_rails['db_adapter'] = 'postgresql'
       gitlab_rails['db_encoding'] = 'utf8'
-      redis['enable'] = false
-      gitlab_rails['redis_host'] = 'redis'
-      gitlab_rails['redis_port'] = '6379'
       external_url 'http://${SERVER_IPv4}:8083'
   ports:
     - 8083:8083
