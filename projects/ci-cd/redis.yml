@@ -6,6 +6,7 @@ redis:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/redis:/data
+  user: redis
   stop_grace_period: 30s
   stop_signal: SIGQUIT
 #  healthcheck:
