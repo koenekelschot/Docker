@@ -1,0 +1,27 @@
+nordvpn:
+  container_name: nordvpn
+  image: bubuntux/nordvpn:v3.9.1 #https://github.com/bubuntux/nordvpn/discussions/202
+  depends_on:
+    - adguard
+  restart: unless-stopped
+  environment:
+    - TZ=${TZ}
+    - USER=${VPN_USER}
+    - PASS=${VPN_PASS}
+    - TECHNOLOGY=NordLynx
+    - CONNECT=${VPN_CONNECT}
+  networks:
+    vpn_net:
+  ports:
+    - 6767:6767 #bazarr
+    - 7878:7878 #radarr
+    - 8112:8112 #deluge
+    - 8989:8989 #sonarr
+    - 9117:9117 #jackett
+  cap_add:
+    - NET_ADMIN
+    - SYS_MODULE
+  sysctls:
+    - net.ipv4.conf.all.rp_filter=2
+  devices:
+    - /dev/net/tun

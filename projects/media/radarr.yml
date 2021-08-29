@@ -1,6 +1,8 @@
 radarr:
   container_name: radarr
   image: linuxserver/radarr:latest
+  depends_on:
+    - nordvpn
   restart: unless-stopped
   environment:
     - PUID=${PUID}
@@ -11,9 +13,7 @@ radarr:
     - ${VOLUMES}/radarr:/config # config files
     - ${MEDIA}/Movies:/movies # movies folder
     - ${DOWNLOADS}:/downloads # download folder
-  network_mode: host
-  ports:
-    - 7878:7878
+  network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:7878/"]
     interval: 30s

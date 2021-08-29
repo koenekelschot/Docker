@@ -1,6 +1,8 @@
 deluge:
   container_name: deluge
   image: linuxserver/deluge:latest
+  depends_on:
+    - nordvpn
   restart: unless-stopped
   environment:
     - PUID=${PUID}
@@ -9,9 +11,7 @@ deluge:
   volumes:
     - ${DOWNLOADS}:/downloads # downloads folder
     - ${VOLUMES}/deluge:/config # config files
-  network_mode: host
-  ports:
-    - 8112:8112
+  network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:8112/"]
     interval: 30s
