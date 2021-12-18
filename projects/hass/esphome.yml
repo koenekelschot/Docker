@@ -1,0 +1,14 @@
+esphome:
+  container_name: esphome
+  image: esphome/esphome:2021.11.4
+  restart: unless-stopped
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+  network_mode: host
+  ports:
+    - 6052:6052
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${VOLUMES}/esphome:/config
