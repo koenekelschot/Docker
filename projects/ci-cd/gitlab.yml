@@ -1,17 +1,10 @@
 gitlab:
-  image: gitlab/gitlab-ce:13.11.3-ce.0
+  image: gitlab/gitlab-ce:14.1.8-ce.0
   container_name: gitlab
-  depends_on:
-    - postgresql
   environment:
     GITLAB_OMNIBUS_CONFIG: |
-      postgresql['enable'] = false
-      gitlab_rails['db_username'] = '${GITLAB_DB_USER}'
-      gitlab_rails['db_password'] = '${GITLAB_DB_PASS}'
-      gitlab_rails['db_host'] = 'postgresql'
-      gitlab_rails['db_database'] = 'gitlab'
-      gitlab_rails['db_adapter'] = 'postgresql'
-      gitlab_rails['db_encoding'] = 'utf8'
+      postgresql['enable'] = true
+      postgresql['version'] = 13
       external_url 'http://${SERVER_IPv4}:8083'
   ports:
     - 8083:8083
@@ -20,7 +13,6 @@ gitlab:
     - ${VOLUMES}/gitlab/config:/etc/gitlab
     - ${VOLUMES}/gitlab/backup:/var/opt/gitlab/backups
   restart: unless-stopped
-
 gitlab-runner:
   container_name: gitlab-runner
   image: gitlab/gitlab-runner:alpine
