@@ -10,6 +10,12 @@ import_env() {
     printf "\nHA_VERSION=" | cat - .HA_VERSION >> env-imported
     rm .HA_VERSION
 
+    echo "Import ESPHOME version"
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER_DOCKER/.ESPHOME_VERSION .ESPHOME_VERSION
+    # https://stackoverflow.com/a/3005476
+    printf "\nESPHOME_VERSION=" | cat - .ESPHOME_VERSION >> env-imported
+    rm .ESPHOME_VERSION
+
     # https://stackoverflow.com/a/24957725
     # `s/^ *//`  => left trim
     # `s/ *$//`  => right trim

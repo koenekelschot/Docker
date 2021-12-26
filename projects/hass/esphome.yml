@@ -1,6 +1,6 @@
 esphome:
   container_name: esphome
-  image: esphome/esphome:2021.11.4
+  image: esphome/esphome:${ESPHOME_VERSION}
   restart: unless-stopped
   environment:
     - PUID=${PUID}
