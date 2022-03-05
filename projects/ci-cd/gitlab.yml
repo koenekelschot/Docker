@@ -1,5 +1,5 @@
 gitlab:
-  image: gitlab/gitlab-ce:14.5.2-ce.0
+  image: gitlab/gitlab-ce:14.8.2-ce.0
   container_name: gitlab
   environment:
     GITLAB_OMNIBUS_CONFIG: |
