@@ -18,3 +18,8 @@ sonarr:
     test: ["CMD", "curl", "-f", "http://localhost:8989/"]
     interval: 30s
     timeout: 10s
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.sonarr.entrypoints=internal"
+    - "traefik.http.routers.sonarr.rule=Host(`series.${SERVER_NAME}`)"
+    - "traefik.http.services.sonarr.loadbalancer.server.port=8989"

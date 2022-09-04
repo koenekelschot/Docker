@@ -7,8 +7,11 @@ esphome:
     - PGID=${PGID}
     - TZ=${TZ}
   network_mode: host
-  ports:
-    - 6052:6052
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/esphome:/config
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.esphome.entrypoints=internal"
+    - "traefik.http.routers.esphome.rule=Host(`esphome.${SERVER_NAME}`)"
+    - "traefik.http.services.esphome.loadbalancer.server.port=6052"

@@ -10,8 +10,12 @@ adguard:
   ports:
     - 53:53
     - 443:443
-    - 3000:3000
   healthcheck:
     test: pgrep adguardhome >/dev/null && exit 0 || exit 1
     interval: 15s
     timeout: 5s
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.adguard.entrypoints=internal"
+    - "traefik.http.routers.adguard.rule=Host(`dns.${SERVER_NAME}`)"
+    - "traefik.http.services.adguard.loadbalancer.server.port=3000"

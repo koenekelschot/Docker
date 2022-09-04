@@ -1,0 +1,18 @@
+traefik:
+  image: traefik:v2.8.4
+  container_name: traefik
+  depends_on:
+    - adguard
+  labels:
+    - "com.centurylinklabs.watchtower.enable=false"
+  environment:
+    - TZ=${TZ}
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /etc/localtime:/etc/localtime:ro
+    - ${VOLUMES}/traefik:/etc/traefik
+  network_mode: host
+  restart: unless-stopped
+  ports:
+    - 81:81
+    - 8080:8080

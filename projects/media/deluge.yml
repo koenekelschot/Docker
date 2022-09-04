@@ -16,3 +16,8 @@ deluge:
     test: ["CMD", "curl", "-f", "http://localhost:8112/"]
     interval: 30s
     timeout: 10s
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.deluge.entrypoints=internal"
+    - "traefik.http.routers.deluge.rule=Host(`downloads.${SERVER_NAME}`)"
+    - "traefik.http.services.deluge.loadbalancer.server.port=8112"

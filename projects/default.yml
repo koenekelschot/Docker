@@ -3,5 +3,6 @@ version: '3'
 networks:
   vpn_net:
     driver: bridge
+  gitlab:
 
 services:

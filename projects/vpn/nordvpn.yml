@@ -12,12 +12,6 @@ nordvpn:
     - CONNECT=${VPN_CONNECT}
   networks:
     vpn_net:
-  ports:
-    - 6767:6767 #bazarr
-    - 7878:7878 #radarr
-    - 8112:8112 #deluge
-    - 8989:8989 #sonarr
-    - 9117:9117 #jackett
   cap_add:
     - NET_ADMIN
     - SYS_MODULE

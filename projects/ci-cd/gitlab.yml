@@ -1,21 +1,34 @@
 gitlab:
   image: gitlab/gitlab-ce:14.8.2-ce.0
   container_name: gitlab
+  hostname: gitlab.${SERVER_NAME}
   environment:
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = true
-      postgresql['version'] = 13
-      external_url 'http://${SERVER_IPv4}:8083'
-  ports:
-    - 8083:8083
+      external_url 'http://gitlab.${SERVER_NAME}:81'
+      gitlab_rails['trusted_proxies'] = ['172.18.0.0/16']
+      nginx['real_ip_trusted_addresses'] = ['172.18.0.0/16']
+      nginx['real_ip_header'] = 'X-Real-Ip'
+      nginx['real_ip_recursive'] = 'on'
+      nginx['listen_port'] = 80
+  networks:
+    - gitlab
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/gitlab/config:/etc/gitlab
+    - ${VOLUMES}/gitlab/logs:/var/log/gitlab
     - ${VOLUMES}/gitlab/backup:/var/opt/gitlab/backups
   restart: unless-stopped
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.gitlab.entrypoints=internal"
+    - "traefik.http.routers.gitlab.rule=Host(`gitlab.${SERVER_NAME}`)"
+    - "traefik.http.services.gitlab.loadbalancer.server.port=80"
 gitlab-runner:
   container_name: gitlab-runner
   image: gitlab/gitlab-runner:alpine
+  networks:
+    - gitlab
   ports:
     - 8093:8093
   volumes:

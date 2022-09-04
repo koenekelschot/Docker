@@ -1,0 +1,21 @@
+http:
+  middlewares:
+    default-internal-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+
+    default-internal-whitelist:
+      ipWhiteList:
+        sourceRange:
+        - "10.1.0.0/24"
+        - "10.2.0.0/24"
+        - "10.3.0.0/24"
+        - "10.5.0.0/24"
+
+    default-internal:
+      chain:
+        middlewares:
+        - default-whitelist
+        - default-headers

@@ -17,3 +17,8 @@ deconz:
     test: ls /dev/ttyACM0 >/dev/null && exit 0 || exit 1
     interval: 10s
     timeout: 5s
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.deconz.entrypoints=internal"
+    - "traefik.http.routers.deconz.rule=Host(`deconz.${SERVER_NAME}`)"
+    - "traefik.http.services.deconz.loadbalancer.server.port=8124"

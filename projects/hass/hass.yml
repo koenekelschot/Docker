@@ -21,3 +21,8 @@ homeassistant:
     test: python -m homeassistant --config /config --script check_config && wget --no-verbose --tries=1 --spider http://localhost:8123
     interval: 15s
     timeout: 10s
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.hass.entrypoints=internal"
+    - "traefik.http.routers.hass.rule=Host(`hass.${SERVER_NAME}`)"
+    - "traefik.http.services.hass.loadbalancer.server.port=8123"

@@ -17,3 +17,8 @@ jackett:
     test: ["CMD", "curl", "-f", "http://localhost:9117/"]
     interval: 30s
     timeout: 10s
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.jackett.entrypoints=internal"
+    - "traefik.http.routers.jackett.rule=Host(`torrents.${SERVER_NAME}`)"
+    - "traefik.http.services.jackett.loadbalancer.server.port=9117"

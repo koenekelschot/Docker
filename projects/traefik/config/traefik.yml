@@ -1,0 +1,28 @@
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: /etc/traefik/config.yml
+
+api:
+  insecure: true
+  dashboard: true
+
+entryPoints:
+  internal:
+   address: ":81"
+   http:
+    middlewares:
+      - default-internal@file
+
+log:
+  level: DEBUG
+
+accessLog:
+  filePath: "/logs/access.log"
+  format: common
+  fields:
+    defaultMode: keep
+    names:
+      StartUTC: drop

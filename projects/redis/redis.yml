@@ -5,8 +5,12 @@ redis:
     - TZ=${TZ}
   ports:
     - 6379:6379
-    - 8001:8001
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/redis/data:/data
   restart: unless-stopped
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.redis.entrypoints=internal"
+    - "traefik.http.routers.redis.rule=Host(`redis.${SERVER_NAME}`)"
+    - "traefik.http.services.redis.loadbalancer.server.port=8001"

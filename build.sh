@@ -2,16 +2,16 @@
 
 import_env() {
     echo "Import .env variables"
-    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER_DOCKER/.env env-imported
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.env env-imported
 
     echo "Import HomeAssistant version"
-    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER_DOCKER/.HA_VERSION .HA_VERSION
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.HA_VERSION .HA_VERSION
     # https://stackoverflow.com/a/3005476
     printf "\nHA_VERSION=" | cat - .HA_VERSION >> env-imported
     rm .HA_VERSION
 
     echo "Import ESPHOME version"
-    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER:$SSH_FOLDER_DOCKER/.ESPHOME_VERSION .ESPHOME_VERSION
+    sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.ESPHOME_VERSION .ESPHOME_VERSION
     # https://stackoverflow.com/a/3005476
     printf "\nESPHOME_VERSION=" | cat - .ESPHOME_VERSION >> env-imported
     rm .ESPHOME_VERSION
@@ -58,7 +58,7 @@ create_compose() {
     echo "Creating docker-compose.yml"
     test -f docker-compose.yml || touch docker-compose.yml
     cat projects/default.yml > docker-compose.yml
-    find projects/ -mindepth 2 -type f -name '*.yml' -exec sed -e 's/^/  /' {} >> docker-compose.yml \;
+    find projects/ -mindepth 2 -maxdepth 2 -type f -name '*.yml' -exec sed -e 's/^/  /' {} >> docker-compose.yml \;
 
     return 0
 }
