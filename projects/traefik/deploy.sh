@@ -10,8 +10,11 @@ fix_dsm() {
 
 echo "Deploy traefik"
 ensure_folder ${VOLUMES}/traefik
+ensure_folder ${VOLUMES}/traefik/waf
 cp ./projects/traefik/config/traefik.yml ${VOLUMES}/traefik/traefik.yml
 cp ./projects/traefik/config/config.yml ${VOLUMES}/traefik/config.yml
+cp ./projects/traefik/waf/before.conf ${VOLUMES}/traefik/waf/before.conf
+cp ./projects/traefik/waf/after.conf ${VOLUMES}/traefik/waf/after.conf
 
 # Freeing up port 80 on Synology DSM, rewrites port 80 to 8880 and 443 to 8881
 # https://stackoverflow.com/a/55561347

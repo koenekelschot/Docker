@@ -20,6 +20,6 @@ folding-at-home:
     - ${VOLUMES}/folding-at-home:/opt/fahclient/work
   labels:
     - "traefik.enable=true"
-    - "traefik.http.routers.folfing-at-home.entrypoints=internal"
+    - "traefik.http.routers.folding-at-home.entrypoints=internal"
     - "traefik.http.routers.folding-at-home.rule=Host(`folding.${SERVER_NAME}`)"
     - "traefik.http.services.folding-at-home.loadbalancer.server.port=7396"

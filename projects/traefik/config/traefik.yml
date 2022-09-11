@@ -26,3 +26,9 @@ accessLog:
     defaultMode: keep
     names:
       StartUTC: drop
+
+experimental:
+  plugins:
+    traefik-modsecurity-plugin:
+      moduleName: "github.com/acouvreur/traefik-modsecurity-plugin"
+      version: "v1.2.1"

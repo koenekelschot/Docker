@@ -1,18 +1,56 @@
 traefik:
   image: traefik:v2.8.4
   container_name: traefik
+  network_mode: host
   depends_on:
-    - adguard
+    - waf
   labels:
     - "com.centurylinklabs.watchtower.enable=false"
+    - "traefik.enable=true"
+    - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+    - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.modSecurityUrl=http://localhost:82"
+    - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.maxBodySize=10485760"
   environment:
     - TZ=${TZ}
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/traefik:/etc/traefik
-  network_mode: host
   restart: unless-stopped
   ports:
     - 81:81
     - 8080:8080
+whoami:
+  image: traefik/whoami
+  container_name: whoami
+  restart: unless-stopped
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.whoami.entrypoints=internal"
+    - "traefik.http.routers.whoami.rule=Host(`whoami.${SERVER_NAME}`)"
+    - "traefik.http.services.whoami.loadbalancer.server.port=80"
+waf:
+  image: owasp/modsecurity-crs:nginx
+  container_name: waf
+  network_mode: host
+  depends_on:
+    - adguard
+    - waf-backend
+  restart: unless-stopped
+  environment:
+    - PARANOIA=1
+    - ANOMALY_INBOUND=10
+    - ANOMALY_OUTBOUND=5
+    - PORT=82
+    - SSL_PORT=8443 #random om te voorkomen dat 443 wordt gebruikt
+    - BACKEND=http://localhost:83
+    - DNS_SERVER=${SERVER_IPv4}
+  volumes:
+    - ${VOLUMES}/traefik/waf/before.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+    - ${VOLUMES}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+waf-backend:
+    image: traefik/whoami
+    container_name: waf-backend
+    network_mode: host
+    command: ["--port", "83"]
+    restart: unless-stopped
