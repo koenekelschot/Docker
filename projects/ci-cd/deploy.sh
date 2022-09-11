@@ -4,4 +4,5 @@ ensure_folder() {
 
 echo "Deploy gitlab"
 ensure_folder ${VOLUMES}/gitlab-runner
-cp ./projects/ci-cd/config/gitlab-runner.toml ${VOLUMES}/gitlab-runner/config.toml
+cp ./projects/ci-cd/runner/config.template.toml ${VOLUMES}/gitlab-runner/config.template.toml
+cp ./projects/ci-cd/runner/gitlab-runner-registrator.sh ${VOLUMES}/gitlab-runner/gitlab-runner-registrator.sh

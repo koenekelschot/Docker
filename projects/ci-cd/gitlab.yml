@@ -6,8 +6,8 @@ gitlab:
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = true
       external_url 'http://gitlab.${SERVER_NAME}:81'
-      gitlab_rails['trusted_proxies'] = ['172.18.0.0/16']
-      nginx['real_ip_trusted_addresses'] = ['172.18.0.0/16']
+      gitlab_rails['trusted_proxies'] = ['172.18.0.0/16','172.20.0.0/16']
+      nginx['real_ip_trusted_addresses'] = ['172.18.0.0/16','172.20.0.0/16']
       nginx['real_ip_header'] = 'X-Real-Ip'
       nginx['real_ip_recursive'] = 'on'
       nginx['listen_port'] = 80
@@ -17,7 +17,7 @@ gitlab:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/gitlab/config:/etc/gitlab
     - ${VOLUMES}/gitlab/logs:/var/log/gitlab
-    - ${VOLUMES}/gitlab/backup:/var/opt/gitlab/backups
+    - ${VOLUMES}/gitlab/data:/var/opt/gitlab
   restart: unless-stopped
   labels:
     - "traefik.enable=true"
