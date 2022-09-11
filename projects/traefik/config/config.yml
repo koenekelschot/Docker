@@ -17,5 +17,5 @@ http:
     default-internal:
       chain:
         middlewares:
-        - default-whitelist
-        - default-headers
+        - default-internal-whitelist
+        - default-internal-headers
