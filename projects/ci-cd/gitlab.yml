@@ -1,11 +1,13 @@
 gitlab:
-  image: gitlab/gitlab-ce:14.8.2-ce.0
+  image: gitlab/gitlab-ce:15.3.3-ce.0
   container_name: gitlab
   hostname: gitlab.${SERVER_NAME}
   environment:
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = true
       external_url 'http://gitlab.${SERVER_NAME}:81'
+      gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASS}'
+      gitlab_rails['backup_keep_time'] = 2419200
       gitlab_rails['trusted_proxies'] = ['172.18.0.0/16','172.20.0.0/16']
       nginx['real_ip_trusted_addresses'] = ['172.18.0.0/16','172.20.0.0/16']
       nginx['real_ip_header'] = 'X-Real-Ip'
