@@ -1,0 +1,12 @@
+# modsecurity-docker logs the $realip_remote_addr which is the original client address
+# i.e. before replacing it with the value taken from the real_ip_header
+# The original is needed in order to block the correct ip with fail2ban
+# So re-apply the defaults
+log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                '$status $body_bytes_sent "$http_referer" '
+                '"$http_user_agent" "$http_x_forwarded_for"';
+
+access_log ${ACCESSLOG} main;
+access_log ${METRICSLOG} combined;
+
+error_log ${ERRORLOG} ${LOGLEVEL};

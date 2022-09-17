@@ -30,7 +30,7 @@ whoami:
     - "traefik.http.routers.whoami.rule=Host(`whoami.${SERVER_NAME}`)"
     - "traefik.http.services.whoami.loadbalancer.server.port=80"
 waf:
-  image: owasp/modsecurity-crs:nginx
+  image: owasp/modsecurity-crs:nginx-alpine
   container_name: waf
   network_mode: host
   depends_on:
@@ -39,15 +39,20 @@ waf:
   restart: unless-stopped
   environment:
     - PARANOIA=1
-    - ANOMALY_INBOUND=10
-    - ANOMALY_OUTBOUND=5
+    - ALLOWED_METHODS=GET HEAD POST OPTIONS PATCH
     - PORT=82
     - SSL_PORT=8443 #random om te voorkomen dat 443 wordt gebruikt
     - BACKEND=http://localhost:83
     - DNS_SERVER=${SERVER_IPv4}
+    - REAL_IP_HEADER=X-Real-Ip
+    - SET_REAL_IP_FROM=127.0.0.1,172.18.0.0/16,172.20.0.0/16
+    - MODSEC_AUDIT_LOG=/var/log/audit.log
   volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - ${VOLUMES}/traefik/waf/logging.conf.template:/etc/nginx/templates/conf.d/logging.conf.template
     - ${VOLUMES}/traefik/waf/before.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
     - ${VOLUMES}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+    - ${VOLUMES}/traefik/waf/logs:/var/log
 waf-backend:
     image: traefik/whoami
     container_name: waf-backend

@@ -9,10 +9,12 @@ fix_dsm() {
 }
 
 echo "Deploy traefik"
-ensure_folder ${VOLUMES}/traefik
-ensure_folder ${VOLUMES}/traefik/waf
+ensure_folder ${VOLUMES}/traefik/waf/logs/nginx
+touch ${VOLUMES}/traefik/waf/logs/nginx/access.log
+touch ${VOLUMES}/traefik/waf/logs/nginx/error.log
 cp ./projects/traefik/config/traefik.yml ${VOLUMES}/traefik/traefik.yml
 cp ./projects/traefik/config/config.yml ${VOLUMES}/traefik/config.yml
+cp ./projects/traefik/waf/logging.conf.template ${VOLUMES}/traefik/waf/logging.conf.template
 cp ./projects/traefik/waf/before.conf ${VOLUMES}/traefik/waf/before.conf
 cp ./projects/traefik/waf/after.conf ${VOLUMES}/traefik/waf/after.conf
 
