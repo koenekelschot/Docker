@@ -18,6 +18,7 @@ copy_config filter.d/nginx-deny.local
 copy_config filter.d/nginx-geoblock.local
 copy_config filter.d/nginx-notme.local
 copy_config filter.d/nginx-untagged.local
+copy_config filter.d/waf-block.local
 copy_config jail.d/jail.local
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' fail2ban )" == "running" ]; then
     /usr/local/bin/docker restart fail2ban
