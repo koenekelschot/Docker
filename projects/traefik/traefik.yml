@@ -15,7 +15,9 @@ traefik:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/traefik:/etc/traefik
+    - ${VOLUMES}/traefik/config:/etc/traefik
+    - ${VOLUMES}/traefik/logs:/var/logs
+    - ${VOLUMES}/geoip:/var/lib/geoip2:ro
   restart: unless-stopped
   ports:
     - 81:81
@@ -54,8 +56,8 @@ waf:
     - ${VOLUMES}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
     - ${VOLUMES}/traefik/waf/logs:/var/log
 waf-backend:
-    image: traefik/whoami
-    container_name: waf-backend
-    network_mode: host
-    command: ["--port", "83"]
-    restart: unless-stopped
+  image: traefik/whoami
+  container_name: waf-backend
+  network_mode: host
+  command: ["--port", "83"]
+  restart: unless-stopped

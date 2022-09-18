@@ -8,6 +8,7 @@ fail2ban:
     - /etc/localtime:/etc/localtime:ro
     - ${VOLUMES}/fail2ban:/data
     - ${VOLUMES}/nginx/logs:/config/log/nginx:ro
+    - ${VOLUMES}/traefik/logs:/config/log/traefik:ro
     - ${VOLUMES}/traefik/waf/logs/nginx:/config/log/waf:ro
   network_mode: host
   cap_add:

@@ -17,10 +17,12 @@ entryPoints:
       - default-internal@file
 
 log:
-  level: DEBUG
+  filePath: "/var/logs/traefik.log"
+  level: INFO
+  format: common
 
 accessLog:
-  filePath: "/logs/access.log"
+  filePath: "/var/logs/access.log"
   format: common
   fields:
     defaultMode: keep
