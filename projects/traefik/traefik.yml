@@ -8,7 +8,7 @@ traefik:
     - "com.centurylinklabs.watchtower.enable=false"
     - "traefik.enable=true"
     - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-    - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.modSecurityUrl=http://localhost:82"
+    - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.modSecurityUrl=http://localhost:81"
     - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.maxBodySize=10485760"
   environment:
     - TZ=${TZ}
@@ -47,9 +47,9 @@ waf:
   environment:
     - PARANOIA=1
     - ALLOWED_METHODS=GET HEAD POST OPTIONS PATCH
-    - PORT=82
+    - PORT=81
     - SSL_PORT=8443 #random om te voorkomen dat 443 wordt gebruikt
-    - BACKEND=http://localhost:83
+    - BACKEND=http://localhost:82
     - DNS_SERVER=${SERVER_IPv4}
     - REAL_IP_HEADER=X-Real-Ip
     - SET_REAL_IP_FROM=127.0.0.1,172.18.0.0/16,172.20.0.0/16
@@ -64,5 +64,5 @@ waf-backend:
   image: traefik/whoami
   container_name: waf-backend
   network_mode: host
-  command: ["--port", "83"]
+  command: ["--port", "82"]
   restart: unless-stopped
