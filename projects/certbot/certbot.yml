@@ -1,20 +1,20 @@
-certbot:
-  build:
-    context: ./projects/certbot/build
-  container_name: certbot
-  depends_on:
-    - adguard
-  restart: unless-stopped
-  labels:
-    - "com.centurylinklabs.watchtower.enable=false"
-  environment:
-    - DOMAIN=${HA_DOMAIN}
-    - EMAIL=${CERTBOT_EMAIL}
-    - POST_HOOK=docker restart nginx
-    - STAGING=0
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - /var/run/docker.sock:/var/run/docker.sock
-    - ${VOLUMES}/certbot/webroot:/var/www/certbot
-    - ${VOLUMES}/certbot/logs:/logs
-    - ${VOLUMES}/certbot/conf:/etc/letsencrypt
+# certbot:
+#   build:
+#     context: ./projects/certbot/build
+#   container_name: certbot
+#   depends_on:
+#     - adguard
+#   restart: unless-stopped
+#   labels:
+#     - "com.centurylinklabs.watchtower.enable=false"
+#   environment:
+#     - DOMAIN=${HA_DOMAIN}
+#     - EMAIL=${CERTBOT_EMAIL}
+#     - POST_HOOK=docker restart nginx
+#     - STAGING=0
+#   volumes:
+#     - /etc/localtime:/etc/localtime:ro
+#     - /var/run/docker.sock:/var/run/docker.sock
+#     - ${VOLUMES}/certbot/webroot:/var/www/certbot
+#     - ${VOLUMES}/certbot/logs:/logs
+#     - ${VOLUMES}/certbot/conf:/etc/letsencrypt

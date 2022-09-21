@@ -11,10 +11,23 @@ api:
 
 entryPoints:
   internal:
-   address: ":81"
-   http:
-    middlewares:
-      - default-internal@file
+    address: ":80"
+    http:
+      middlewares:
+        - default-internal@file
+  external:
+    address: ":443"
+    http:
+      middlewares:
+        - default-external@file
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: ${CERTBOT_EMAIL}
+      storage: /etc/traefik/acme/acme.json
+      dnsChallenge:
+        provider: ${ACME_PROVIDER}
 
 log:
   filePath: "/var/logs/traefik.log"

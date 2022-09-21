@@ -12,15 +12,20 @@ traefik:
     - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.maxBodySize=10485760"
   environment:
     - TZ=${TZ}
+    - ${ACME_USERNAME_KEY}=${ACME_USERNAME_VALUE}
+    - ${ACME_PRIVATE_KEY_PATH}=letsencrypt.key
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /etc/localtime:/etc/localtime:ro
+    - ${VOLUMES}/../letsencrypt.key:/letsencrypt.key:ro
+    - ${VOLUMES}/traefik/acme:/etc/traefik/acme
     - ${VOLUMES}/traefik/config:/etc/traefik
     - ${VOLUMES}/traefik/logs:/var/logs
     - ${VOLUMES}/geoip:/var/lib/geoip2:ro
   restart: unless-stopped
   ports:
-    - 81:81
+    - 80:80
+    - 443:443
     - 8080:8080
 whoami:
   image: traefik/whoami

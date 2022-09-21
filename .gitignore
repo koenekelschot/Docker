@@ -3,3 +3,4 @@ logs/*
 volumes/*
 !volumes/readme.md
 .env
+letsencrypt.key

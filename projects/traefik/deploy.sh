@@ -9,6 +9,7 @@ fix_dsm() {
 }
 
 echo "Deploy traefik"
+ensure_folder ${VOLUMES}/traefik/acme
 ensure_folder ${VOLUMES}/traefik/config
 ensure_folder ${VOLUMES}/traefik/logs
 ensure_folder ${VOLUMES}/traefik/waf/logs/nginx

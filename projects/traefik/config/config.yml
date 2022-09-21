@@ -1,12 +1,12 @@
 http:
   middlewares:
-    default-internal-headers:
+    default-headers:
       headers:
         frameDeny: true
         browserXssFilter: true
         contentTypeNosniff: true
 
-    default-internal-whitelist:
+    internal-whitelist:
       ipWhiteList:
         sourceRange:
           - "10.1.0.0/24"
@@ -14,9 +14,32 @@ http:
           - "10.3.0.0/24"
           - "10.5.0.0/24"
 
+    security-headers:
+      headers:
+        accesscontrolallowmethods: GET, OPTIONS, PUT, POST
+        accesscontrolmaxage: 100
+        addvaryheader: true
+        #hostsproxyheaders: X-Forwarded-Host
+        sslredirect: true
+        X-Forwarded-Proto: https
+        #stsseconds: 63072000
+        #stsincludesubdomains: true
+        #stspreload: true
+        #forcestsheader: true
+        referrerpolicy: same-origin
+        featurepolicy: camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none';
+        customresponseheaders.X-Robots-Tag: none,noarchive,nosnippet,notranslate,noimageindex
+
     default-internal:
       chain:
         middlewares:
-          - default-internal-whitelist
-          - default-internal-headers
           - waf@docker
+          - internal-whitelist
+          - default-headers
+
+    default-external:
+      chain:
+        middlewares:
+          - waf@docker
+          - default-headers
+          - security-headers

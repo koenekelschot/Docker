@@ -23,8 +23,15 @@ homeassistant:
     timeout: 10s
   labels:
     - "traefik.enable=true"
-    - "traefik.http.routers.hass.entrypoints=internal"
-    - "traefik.http.routers.hass.rule=Host(`hass.${SERVER_NAME}`)"
     - "traefik.http.services.hass.loadbalancer.server.port=8123"
-    #- "traefik.http.middlewares.hass-geoip.forwardauth.address=http://localhost:8000/?locations=NL;&ips=127.0.0.1,10.0.0.0/8,52.210.253.108,52.48.198.78,52.49.253.220"
-    #- "traefik.http.routers.whoami.middlewares=hass-geoip@docker"
+    - "traefik.http.routers.hass-internal.service=hass"
+    - "traefik.http.routers.hass-internal.entrypoints=internal"
+    - "traefik.http.routers.hass-internal.rule=Host(`hass.${SERVER_NAME}`)"
+    - "traefik.http.routers.hass-external.service=hass"
+    - "traefik.http.routers.hass-external.entrypoints=external"
+    - "traefik.http.routers.hass-external.rule=Host(`${HA_DOMAIN}`)"
+    - "traefik.http.routers.hass-external.tls=true"
+    - "traefik.http.routers.hass-external.tls.certresolver=letsencrypt"
+    # Allow NL, internal IPs, and Toon
+    - "traefik.http.middlewares.hass-geoip.forwardauth.address=http://localhost:8000/?locations=NL;&ips=127.0.0.1,10.0.0.0/8,52.210.253.108,52.48.198.78,52.49.253.220"
+    - "traefik.http.routers.hass-external.middlewares=hass-geoip@docker"
