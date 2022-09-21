@@ -3,6 +3,7 @@ gitlab:
   container_name: gitlab
   hostname: gitlab.${SERVER_NAME}
   environment:
+    GITLAB_SKIP_UNMIGRATED_DATA_CHECK: 'true'
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = true
       external_url 'http://gitlab.${SERVER_NAME}:81'
