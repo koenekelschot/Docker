@@ -12,6 +12,7 @@ ensure_folder ${VOLUMES}/fail2ban/action.d
 ensure_folder ${VOLUMES}/fail2ban/filter.d
 ensure_folder ${VOLUMES}/fail2ban/jail.d
 copy_config action.d/iptables-common.local
+copy_config filter.d/hass-login.local
 copy_config filter.d/nginx-authfail.local
 copy_config filter.d/nginx-badbots.local
 copy_config filter.d/nginx-deny.local
