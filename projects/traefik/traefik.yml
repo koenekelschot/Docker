@@ -46,7 +46,8 @@ waf:
   restart: unless-stopped
   environment:
     - PARANOIA=1
-    - ALLOWED_METHODS=GET HEAD POST OPTIONS PATCH
+    - ALLOWED_METHODS=GET HEAD POST OPTIONS PUT PATCH DELETE
+    - ALLOWED_REQUEST_CONTENT_TYPE=|application/x-www-form-urlencoded| |multipart/form-data| |multipart/related| |text/plain| |text/xml| |application/xml| |application/soap+xml| |application/json| |application/csp-report|
     - PORT=81
     - SSL_PORT=8443 #random om te voorkomen dat 443 wordt gebruikt
     - BACKEND=http://localhost:82
