@@ -1,16 +1,18 @@
 deconz:
   container_name: deconz
-  image: marthoc/deconz:stable
+  image: deconzcommunity/deconz:stable
   restart: unless-stopped
   environment:
     - TZ=${TZ}
+    - DECONZ_UID=0
+    - DECONZ_GID=0
     - DECONZ_WEB_PORT=8124
     - DECONZ_WS_PORT=8125
     - DECONZ_DEVICE=/dev/ttyACM0
   network_mode: host
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/deconz:/root/.local/share/dresden-elektronik/deCONZ
+    - ${VOLUMES}/deconz:/opt/deCONZ
   devices:
     - /dev/ttyUSB-CONBEE:/dev/ttyACM0
   healthcheck:
