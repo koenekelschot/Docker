@@ -1,5 +1,5 @@
 #!/bin/bash
-# Retrieves the registration token from http://gitlab.${SERVER_NAME}:81/admin/runners
+# Retrieves the registration token from http://gitlab.${SERVER_NAME}/admin/runners
 # and registers the runner based on the template
 
 if [ -f "config.toml" ] ; then

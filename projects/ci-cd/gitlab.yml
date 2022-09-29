@@ -6,7 +6,7 @@ gitlab:
     GITLAB_SKIP_UNMIGRATED_DATA_CHECK: 'true'
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = true
-      external_url 'http://gitlab.${SERVER_NAME}:81'
+      external_url 'http://gitlab.${SERVER_NAME}'
       gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASS}'
       gitlab_rails['backup_keep_time'] = 2419200
       gitlab_rails['trusted_proxies'] = ['172.18.0.0/16','172.20.0.0/16']

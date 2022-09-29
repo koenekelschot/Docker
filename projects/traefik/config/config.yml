@@ -26,6 +26,12 @@ http:
         referrerpolicy: same-origin
         featurepolicy: camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none';
 
+    remove-headers:
+      headers:
+        customresponseheaders:
+          server: ''
+          x-powered-by: ''
+
     default-internal:
       chain:
         middlewares:
@@ -39,3 +45,4 @@ http:
           - waf@docker
           - default-headers
           - security-headers
+          - remove-headers
