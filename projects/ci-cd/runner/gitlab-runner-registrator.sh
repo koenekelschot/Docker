@@ -16,3 +16,7 @@ docker exec -it gitlab-runner \
     --template-config /etc/gitlab-runner/config.template.toml \
     --non-interactive \
     --registration-token "$token"
+
+# https://forum.gitlab.com/t/gitlab-runner-register-set-concurrency/3784
+sed -i 's/concurrent.*/concurrent = 5/' config.toml
+docker restart gitlab-runner
