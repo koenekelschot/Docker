@@ -1,9 +1,9 @@
-image: 
-  name: docker/compose:1.29.2
-
-before_script:
-  # https://unix.stackexchange.com/a/417661
-  - apk update && apk add openssh sshpass
+default:
+  image: 
+    name: docker/compose:1.29.2
+  before_script:
+    # https://unix.stackexchange.com/a/417661
+    - apk update && apk add openssh sshpass
 
 stages:
   - build
@@ -25,7 +25,7 @@ test:
 
 deploy:
   stage: deploy
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script: 
     - sh ./deploy-gitlab.sh
