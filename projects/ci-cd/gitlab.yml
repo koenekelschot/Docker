@@ -18,9 +18,8 @@ gitlab:
     - gitlab
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/gitlab/config:/etc/gitlab
-    - ${VOLUMES}/gitlab/logs:/var/log/gitlab
     - ${VOLUMES}/gitlab/backup:/var/opt/gitlab/backups
+    - ${VOLUMES}/gitlab/config:/etc/gitlab
   restart: unless-stopped
   labels:
     - "traefik.enable=true"
