@@ -14,7 +14,11 @@ homeassistant:
     - 8123:8123
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/homeassistant:/config
+    - ${VOLUMES}/homeassistant/config:/config
+    - ${VOLUMES}/homeassistant/data:/data
+    - ${VOLUMES}/homeassistant/logs/home-assistant.log:/config/home-assistant.log
+    - ${VOLUMES}/homeassistant/logs/home-assistant.log.1:/config/home-assistant.log.1
+    - ${VOLUMES}/homeassistant/logs/home-assistant.log.fault:/config/home-assistant.log.fault
   devices:
     - /dev/ttyUSB-RFLINK:/dev/rflink
   healthcheck:

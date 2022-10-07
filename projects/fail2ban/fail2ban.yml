@@ -9,7 +9,7 @@ fail2ban:
     - ${VOLUMES}/fail2ban:/data
     - ${VOLUMES}/traefik/logs:/config/log/traefik:ro
     - ${VOLUMES}/traefik/waf/logs/nginx:/config/log/waf:ro
-    - ${VOLUMES}/homeassistant/home-assistant.log:/config/log/homeassistant/home-assistant.log:ro
+    - ${VOLUMES}/homeassistant/logs/home-assistant.log:/config/log/homeassistant/home-assistant.log:ro
   network_mode: host
   cap_add:
     - NET_ADMIN
