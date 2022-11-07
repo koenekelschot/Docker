@@ -1,21 +1,14 @@
-ensure_folder() {
-    test -d "$1" || mkdir -p "$1"
-}
-
-copy_config() {
-    cp ./projects/fail2ban/config/$1.conf {{ global.docker_volumes }}/fail2ban/$1
-}
-
 echo "Deploy fail2ban"
-ensure_folder {{ global.docker_volumes }}/fail2ban
-ensure_folder {{ global.docker_volumes }}/fail2ban/action.d
-ensure_folder {{ global.docker_volumes }}/fail2ban/filter.d
-ensure_folder {{ global.docker_volumes }}/fail2ban/jail.d
-copy_config action.d/iptables-common.local
-copy_config filter.d/hass-login.local
-copy_config filter.d/traefik-block.local
-copy_config filter.d/waf-block.local
-copy_config jail.d/jail.local
+ensure_folder_exists {{ global.docker_volumes }}/fail2ban
+ensure_folder_exists {{ global.docker_volumes }}/fail2ban/action.d
+ensure_folder_exists {{ global.docker_volumes }}/fail2ban/filter.d
+ensure_folder_exists {{ global.docker_volumes }}/fail2ban/jail.d
+copy_file ./projects/fail2ban/config/action.d/iptables-common.local {{ global.docker_volumes }}/fail2ban/action.d/iptables-common.local
+copy_file ./projects/fail2ban/config/filter.d/hass-login.local {{ global.docker_volumes }}/fail2ban/filter.d/hass-login.local
+copy_file ./projects/fail2ban/config/filter.d/traefik-block.local {{ global.docker_volumes }}/fail2ban/filter.d/traefik-block.local
+copy_file ./projects/fail2ban/config/filter.d/waf-block.local {{ global.docker_volumes }}/fail2ban/filter.d/waf-block.local
+copy_file ./projects/fail2ban/config/jail.d/jail.local {{ global.docker_volumes }}/fail2ban/jail.d/jail.local
+
 {% raw %}
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' fail2ban )" == "running" ]; then
     /usr/local/bin/docker restart fail2ban

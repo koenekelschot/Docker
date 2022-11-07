@@ -40,3 +40,4 @@ deploy:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script: 
     - sh ./deploy-gitlab.sh
+    - docker-compose up -d --build --remove-orphans

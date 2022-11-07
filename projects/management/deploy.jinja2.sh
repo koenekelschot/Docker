@@ -1,6 +1,2 @@
-ensure_folder() {
-    test -d "$1" || mkdir -p "$1"
-}
-
-echo "Deploy management"
-ensure_folder {{ global.docker_volumes }}/portainer
+echo "Deploy portainer"
+ensure_folder_exists {{ global.docker_volumes }}/portainer
