@@ -35,7 +35,7 @@ def import_env():
     return data
 
 def transform_deploy_scripts(variables):
-    for source_path in glob.glob("**/deploy.sh.jinja2", recursive=True):
+    for source_path in glob.glob("**/deploy.jinja2.sh", recursive=True):
         print("Transforming: " + source_path)
         target_path = source_path.replace(".jinja2", "")
         env = Environment(loader=FileSystemLoader("."))
