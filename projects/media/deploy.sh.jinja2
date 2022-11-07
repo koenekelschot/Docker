@@ -1,0 +1,12 @@
+ensure_folder() {
+    test -d "$1" || mkdir -p "$1"
+}
+
+ensure_folder {{ environ('MEDIA') }}/Movies
+ensure_folder {{ environ('MEDIA') }}/Series
+ensure_folder {{ environ('DOWNLOADS') }}
+ensure_folder {{ environ('DOWNLOADS') }}/torrents
+ensure_folder {{ environ('VOLUMES') }}/bazarr
+ensure_folder {{ environ('VOLUMES') }}/deluge
+ensure_folder {{ environ('VOLUMES') }}/radarr
+ensure_folder {{ environ('VOLUMES') }}/sonarr

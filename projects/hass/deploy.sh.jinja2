@@ -1,0 +1,13 @@
+ensure_folder() {
+    test -d "$1" || mkdir -p "$1"
+}
+
+echo "Deploy homeassistant"
+ensure_folder {{ environ('VOLUMES') }}/deconz
+ensure_folder {{ environ('VOLUMES') }}/esphome
+ensure_folder {{ environ('VOLUMES') }}/homeassistant/config
+ensure_folder {{ environ('VOLUMES') }}/homeassistant/data
+ensure_folder {{ environ('VOLUMES') }}/homeassistant/logs
+touch {{ environ('VOLUMES') }}/homeassistant/logs/home-assistant.log
+touch {{ environ('VOLUMES') }}/homeassistant/logs/home-assistant.log.1
+touch {{ environ('VOLUMES') }}/homeassistant/logs/home-assistant.log.fault

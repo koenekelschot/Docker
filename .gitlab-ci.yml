@@ -1,3 +1,4 @@
+---
 default:
   image: 
     name: docker/compose:1.29.2
@@ -12,6 +13,9 @@ stages:
 
 build:
   stage: build
+  image: python:3.11-alpine
+  before_script:
+    - pip3 install jinja2-cli[yaml,toml,xml]==0.8.2
   artifacts:
     paths:
       - cron

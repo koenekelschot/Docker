@@ -1,0 +1,12 @@
+ensure_folder() {
+    test -d "$1" || mkdir -p "$1"
+}
+
+echo "Deploy gitlab"
+ensure_folder {{ environ('VOLUMES') }}/gitlab/backup
+ensure_folder {{ environ('VOLUMES') }}/gitlab/config
+ensure_folder {{ environ('VOLUMES') }}/gitlab-runner
+cp ./projects/ci-cd/runner/config.template.toml {{ environ('VOLUMES') }}/gitlab-runner/config.template.toml
+cp ./projects/ci-cd/runner/gitlab-runner-registrator.sh {{ environ('VOLUMES') }}/gitlab-runner/gitlab-runner-registrator.sh
+cp ./projects/ci-cd/gitlab-create-backup.sh {{ environ('VOLUMES') }}/gitlab/gitlab-create-backup.sh
+cp ./projects/ci-cd/gitlab-restore-backup.sh {{ environ('VOLUMES') }}/gitlab/gitlab-restore-backup.sh

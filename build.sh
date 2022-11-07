@@ -63,6 +63,12 @@ create_compose() {
     return 0
 }
 
+jinja_format() {
+    local filename=$1
+    local format=$2
+    find . -type f -name "$filename.jinja2" -exec jinja2 $filename.jinja2 '' --format=$format --outfile=$filename --strict {} \;
+}
+
 export SSHPASS=$SSH_PASS
 import_env
 
@@ -78,8 +84,9 @@ json=$?
 replace_variables "*.yml"
 yml=$?
 
-replace_variables "deploy.sh"
-sh=$?
+#replace_variables "deploy.sh"
+#sh=$?
+jinja_format "deploy.sh" "auto"
 
 create_compose
 compose=$?
@@ -90,7 +97,7 @@ if  [ $conf != 0 ] ||
     [ $toml != 0 ] || 
     [ $json != 0 ] || 
     [ $yml != 0 ] || 
-    [ $sh != 0 ] || 
+#    [ $sh != 0 ] || 
     [ $compose != 0 ]; then
     exit 1
 fi

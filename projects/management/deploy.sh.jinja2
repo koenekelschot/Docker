@@ -3,4 +3,4 @@ ensure_folder() {
 }
 
 echo "Deploy management"
-ensure_folder ${VOLUMES}/portainer
+ensure_folder {{ environ('VOLUMES') }}/portainer
