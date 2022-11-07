@@ -35,7 +35,7 @@ def import_env():
     return data
 
 def transform_deploy_scripts(variables):
-    for source_path in glob.glob("**/deploy.jinja2.sh", recursive=True):
+    for source_path in glob.glob("projects/**/deploy.jinja2.sh", recursive=True):
         print("Transforming: " + source_path)
         target_path = source_path.replace(".jinja2", "")
         env = Environment(loader=FileSystemLoader("."))
@@ -44,5 +44,28 @@ def transform_deploy_scripts(variables):
             target_file.write(template.render(variables))
         os.remove(source_path)
 
+def combine_deploy_scripts():
+    # files = glob.glob("projects/**/deploy.sh", recursive=True)
+    # env = Environment(loader=FileSystemLoader("."))
+    # template = env.get_template("deploy.jinja2.sh")
+    # with open("deploy.sh", "w") as target_file:
+    #     target_file.write(template.render({"include_files": files}))
+    # for file in files:
+    #     os.remove(file)
+    with open("deploy.sh", "r") as source_file:
+        lines = source_file.readlines()
+    #print(lines)
+    for path in glob.glob("projects/**/deploy.sh", recursive=True):
+        with open(path, "r") as additional_file:
+            #lines.append(additional_file.readlines())
+            lines.append(os.linesep)
+            for line in additional_file.readlines():
+                lines.append(line)
+        os.remove(path)
+    #print(lines)
+    with open("deploy.sh", "w") as target_file:
+        target_file.writelines(lines)
+
 env_json = import_env()
 transform_deploy_scripts(env_json)
+combine_deploy_scripts()
