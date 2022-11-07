@@ -12,9 +12,11 @@ ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/pu
 cp ./projects/websites/config/koen.conf {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/config/default.conf
 cp ./projects/websites/config/paul.conf {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/config/default.conf
 
+{% raw %}
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' website-koen )" == "running" ]; then
     /usr/local/bin/docker restart website-koen
 fi
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' website-paul )" == "running" ]; then
     /usr/local/bin/docker restart website-paul
 fi
+{% endraw %}

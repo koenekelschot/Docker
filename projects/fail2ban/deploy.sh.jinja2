@@ -16,6 +16,8 @@ copy_config filter.d/hass-login.local
 copy_config filter.d/traefik-block.local
 copy_config filter.d/waf-block.local
 copy_config jail.d/jail.local
+{% raw %}
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' fail2ban )" == "running" ]; then
     /usr/local/bin/docker restart fail2ban
 fi
+{% endraw %}
