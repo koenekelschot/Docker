@@ -15,6 +15,7 @@ build:
   stage: build
   image: python:3.11-alpine
   before_script:
+    - apk update && apk add openssh sshpass
     - pip3 install jinja2-cli[yaml,toml,xml]==0.8.2
   artifacts:
     paths:
