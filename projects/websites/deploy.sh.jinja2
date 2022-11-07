@@ -3,14 +3,14 @@ ensure_folder() {
 }
 
 echo "Deploy websites"
-ensure_folder {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_KOEN') }}/config
-ensure_folder {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_KOEN') }}/logs
-ensure_folder {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_KOEN') }}/public
-ensure_folder {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_PAUL') }}/config
-ensure_folder {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_PAUL') }}/logs
-ensure_folder {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_PAUL') }}/public
-cp ./projects/websites/config/koen.conf {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_KOEN') }}/config/default.conf
-cp ./projects/websites/config/paul.conf {{ environ('VOLUMES') }}/websites/{{ environ('DOMAIN_PAUL') }}/config/default.conf
+ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/config
+ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/logs
+ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/public
+ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/config
+ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/logs
+ensure_folder {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/public
+cp ./projects/websites/config/koen.conf {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/config/default.conf
+cp ./projects/websites/config/paul.conf {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/config/default.conf
 
 if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' website-koen )" == "running" ]; then
     /usr/local/bin/docker restart website-koen

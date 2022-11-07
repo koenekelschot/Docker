@@ -3,10 +3,10 @@ ensure_folder() {
 }
 
 echo "Deploy gitlab"
-ensure_folder {{ environ('VOLUMES') }}/gitlab/backup
-ensure_folder {{ environ('VOLUMES') }}/gitlab/config
-ensure_folder {{ environ('VOLUMES') }}/gitlab-runner
-cp ./projects/ci-cd/runner/config.template.toml {{ environ('VOLUMES') }}/gitlab-runner/config.template.toml
-cp ./projects/ci-cd/runner/gitlab-runner-registrator.sh {{ environ('VOLUMES') }}/gitlab-runner/gitlab-runner-registrator.sh
-cp ./projects/ci-cd/gitlab-create-backup.sh {{ environ('VOLUMES') }}/gitlab/gitlab-create-backup.sh
-cp ./projects/ci-cd/gitlab-restore-backup.sh {{ environ('VOLUMES') }}/gitlab/gitlab-restore-backup.sh
+ensure_folder {{ global.docker_volumes }}/gitlab/backup
+ensure_folder {{ global.docker_volumes }}/gitlab/config
+ensure_folder {{ global.docker_volumes }}/gitlab-runner
+cp ./projects/ci-cd/runner/config.template.toml {{ global.docker_volumes }}/gitlab-runner/config.template.toml
+cp ./projects/ci-cd/runner/gitlab-runner-registrator.sh {{ global.docker_volumes }}/gitlab-runner/gitlab-runner-registrator.sh
+cp ./projects/ci-cd/gitlab-create-backup.sh {{ global.docker_volumes }}/gitlab/gitlab-create-backup.sh
+cp ./projects/ci-cd/gitlab-restore-backup.sh {{ global.docker_volumes }}/gitlab/gitlab-restore-backup.sh

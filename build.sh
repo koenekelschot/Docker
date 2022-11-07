@@ -2,18 +2,16 @@
 
 import_env() {
     echo "Import .env variables"
-    # sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.env env-imported
     rsync -athv $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.env env-imported
+    rsync -athv $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/env.json env.json
 
     echo "Import HomeAssistant version"
-    # sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.HA_VERSION .HA_VERSION
     rsync -athv $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.HA_VERSION .HA_VERSION
     # https://stackoverflow.com/a/3005476
     printf "\nHA_VERSION=" | cat - .HA_VERSION >> env-imported
     rm .HA_VERSION
 
     echo "Import ESPHOME version"
-    # sshpass -e scp -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.ESPHOME_VERSION .ESPHOME_VERSION
     rsync -athv $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/.ESPHOME_VERSION .ESPHOME_VERSION
     # https://stackoverflow.com/a/3005476
     printf "\nESPHOME_VERSION=" | cat - .ESPHOME_VERSION >> env-imported
@@ -69,7 +67,7 @@ create_compose() {
 jinja_format() {
     local filename=$1
     local format=$2
-    find . -type f -name "$filename.jinja2" -exec jinja2 $filename.jinja2 '' --format=$format --outfile=$filename --strict {} \;
+    find . -type f -name "$filename.jinja2" -exec jinja2 $filename.jinja2 env.json --format=$format --outfile=$filename --strict {} \;
 }
 
 export SSHPASS=$SSH_PASS

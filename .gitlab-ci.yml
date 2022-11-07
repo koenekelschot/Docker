@@ -21,7 +21,7 @@ build:
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_HOST_KEY" > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - pip3 install jinja2-cli[yaml,toml,xml]==0.8.2
+    - pip3 install jq jinja2-cli[yaml,toml,xml]==0.8.2
   artifacts:
     paths:
       - cron

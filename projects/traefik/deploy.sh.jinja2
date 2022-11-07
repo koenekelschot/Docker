@@ -9,17 +9,17 @@ fix_dsm() {
 }
 
 echo "Deploy traefik"
-ensure_folder {{ environ('VOLUMES') }}/traefik/acme
-ensure_folder {{ environ('VOLUMES') }}/traefik/config
-ensure_folder {{ environ('VOLUMES') }}/traefik/logs
-ensure_folder {{ environ('VOLUMES') }}/traefik/waf/logs/nginx
-touch {{ environ('VOLUMES') }}/traefik/waf/logs/nginx/access.log
-touch {{ environ('VOLUMES') }}/traefik/waf/logs/nginx/error.log
-cp ./projects/traefik/config/traefik.yml {{ environ('VOLUMES') }}/traefik/config/traefik.yml
-cp ./projects/traefik/config/config.yml {{ environ('VOLUMES') }}/traefik/config/config.yml
-cp ./projects/traefik/waf/logging.conf.template {{ environ('VOLUMES') }}/traefik/waf/logging.conf.template
-cp ./projects/traefik/waf/before.conf {{ environ('VOLUMES') }}/traefik/waf/before.conf
-cp ./projects/traefik/waf/after.conf {{ environ('VOLUMES') }}/traefik/waf/after.conf
+ensure_folder {{ global.docker_volumes }}/traefik/acme
+ensure_folder {{ global.docker_volumes }}/traefik/config
+ensure_folder {{ global.docker_volumes }}/traefik/logs
+ensure_folder {{ global.docker_volumes }}/traefik/waf/logs/nginx
+touch {{ global.docker_volumes }}/traefik/waf/logs/nginx/access.log
+touch {{ global.docker_volumes }}/traefik/waf/logs/nginx/error.log
+cp ./projects/traefik/config/traefik.yml {{ global.docker_volumes }}/traefik/config/traefik.yml
+cp ./projects/traefik/config/config.yml {{ global.docker_volumes }}/traefik/config/config.yml
+cp ./projects/traefik/waf/logging.conf.template {{ global.docker_volumes }}/traefik/waf/logging.conf.template
+cp ./projects/traefik/waf/before.conf {{ global.docker_volumes }}/traefik/waf/before.conf
+cp ./projects/traefik/waf/after.conf {{ global.docker_volumes }}/traefik/waf/after.conf
 
 # Freeing up port 80 on Synology DSM, rewrites port 80 to 8880 and 443 to 8881
 # https://stackoverflow.com/a/55561347

@@ -3,4 +3,4 @@ ensure_folder() {
 }
 
 echo "Deploy geoip"
-ensure_folder {{ environ('VOLUMES') }}/geoip
+ensure_folder {{ global.docker_volumes }}/geoip

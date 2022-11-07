@@ -3,4 +3,4 @@ ensure_folder() {
 }
 
 echo "Deploy redis"
-ensure_folder {{ environ('VOLUMES') }}/redis/data
+ensure_folder {{ global.docker_volumes }}/redis/data

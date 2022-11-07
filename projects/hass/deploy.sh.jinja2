@@ -3,11 +3,11 @@ ensure_folder() {
 }
 
 echo "Deploy homeassistant"
-ensure_folder {{ environ('VOLUMES') }}/deconz
-ensure_folder {{ environ('VOLUMES') }}/esphome
-ensure_folder {{ environ('VOLUMES') }}/homeassistant/config
-ensure_folder {{ environ('VOLUMES') }}/homeassistant/data
-ensure_folder {{ environ('VOLUMES') }}/homeassistant/logs
-touch {{ environ('VOLUMES') }}/homeassistant/logs/home-assistant.log
-touch {{ environ('VOLUMES') }}/homeassistant/logs/home-assistant.log.1
-touch {{ environ('VOLUMES') }}/homeassistant/logs/home-assistant.log.fault
+ensure_folder {{ global.docker_volumes }}/deconz
+ensure_folder {{ global.docker_volumes }}/esphome
+ensure_folder {{ global.docker_volumes }}/homeassistant/config
+ensure_folder {{ global.docker_volumes }}/homeassistant/data
+ensure_folder {{ global.docker_volumes }}/homeassistant/logs
+touch {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log
+touch {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log.1
+touch {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log.fault

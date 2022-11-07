@@ -3,5 +3,5 @@ ensure_folder() {
 }
 
 echo "Deploy adguard"
-ensure_folder {{ environ('VOLUMES') }}/adguard/data
-ensure_folder {{ environ('VOLUMES') }}/adguard/config
+ensure_folder {{ global.docker_volumes }}/adguard/data
+ensure_folder {{ global.docker_volumes }}/adguard/config

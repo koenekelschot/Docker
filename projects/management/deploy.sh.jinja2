@@ -3,4 +3,4 @@ ensure_folder() {
 }
 
 echo "Deploy management"
-ensure_folder {{ environ('VOLUMES') }}/portainer
+ensure_folder {{ global.docker_volumes }}/portainer
