@@ -55,6 +55,17 @@ def combine_deploy_scripts():
     with open("deploy.sh", "w") as target_file:
         target_file.writelines(lines)
 
+def transform_jinja_files(variables):
+    for source_path in glob.glob("projects/**/*.jinja2.*", recursive=True):
+        print("Transforming: " + source_path)
+        target_path = source_path.replace(".jinja2.", ".")
+        env = Environment(loader=FileSystemLoader("."))
+        template = env.get_template(source_path)
+        with open(target_path, "w") as target_file:
+            target_file.write(template.render(variables))
+        os.remove(source_path)
+
 env_json = import_env()
 transform_deploy_scripts(env_json)
 combine_deploy_scripts()
+transform_jinja_files(env_json)

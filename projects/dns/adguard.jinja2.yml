@@ -4,8 +4,8 @@ adguard:
   restart: unless-stopped
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/adguard/data:/opt/adguardhome/work
-    - ${VOLUMES}/adguard/config:/opt/adguardhome/conf
+    - {{ global.docker_volumes }}/adguard/data:/opt/adguardhome/work
+    - {{ global.docker_volumes }}/adguard/config:/opt/adguardhome/conf
   network_mode: host
   ports:
     - 53:53
@@ -17,5 +17,5 @@ adguard:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.adguard.entrypoints=internal"
-    - "traefik.http.routers.adguard.rule=Host(`dns.${SERVER_NAME}`)"
+    - "traefik.http.routers.adguard.rule=Host(`dns.{{ global.server.domain }}`)"
     - "traefik.http.services.adguard.loadbalancer.server.port=3000"

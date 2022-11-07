@@ -24,10 +24,10 @@ entryPoints:
 certificatesResolvers:
   letsencrypt:
     acme:
-      email: ${CERTBOT_EMAIL}
+      email: {{ letsencrypt.email }}
       storage: /etc/traefik/acme/acme.json
       dnsChallenge:
-        provider: ${ACME_PROVIDER}
+        provider: {{ letsencrypt.provider }}
 
 log:
   filePath: "/var/logs/traefik.log"

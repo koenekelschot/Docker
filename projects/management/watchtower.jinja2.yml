@@ -3,12 +3,12 @@ watchtower:
   image: containrrr/watchtower:latest
   restart: unless-stopped
   environment:
-    - TZ=${TZ}
+    - TZ={{ global.timezone }}
     - WATCHTOWER_SCHEDULE=0 0 4 * * *
     - WATCHTOWER_TIMEOUT=30s
     - WATCHTOWER_CLEANUP=true
     - WATCHTOWER_NOTIFICATIONS=shoutrrr
-    - WATCHTOWER_NOTIFICATION_URL=telegram://${TELEGRAM_API}@telegram?channels=${TELEGRAM_CHATID}
+    - WATCHTOWER_NOTIFICATION_URL=telegram://{{ telegram.api_key }}@telegram?channels={{ telegram.chat_id }}
     - WATCHTOWER_NO_STARTUP_MESSAGE=true
   volumes:
     - /etc/localtime:/etc/localtime:ro

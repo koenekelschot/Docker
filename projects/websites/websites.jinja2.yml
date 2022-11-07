@@ -6,20 +6,20 @@ website-koen:
     - php
   restart: unless-stopped
   environment:
-    - TZ=${TZ}
+    - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/websites/${DOMAIN_KOEN}/config:/etc/nginx/conf.d:ro
-    - ${VOLUMES}/websites/${DOMAIN_KOEN}/logs:/var/log/nginx
-    - ${VOLUMES}/websites/${DOMAIN_KOEN}/public:/usr/share/nginx/html:ro
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/logs:/var/log/nginx
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/public:/usr/share/nginx/html:ro
   labels:
     - "traefik.enable=true"
     - "traefik.http.services.website-koen.loadbalancer.server.port=80"
     - "traefik.http.routers.website-koen.entrypoints=external"
-    - "traefik.http.routers.website-koen.rule=Host(`${DOMAIN_KOEN}`)"
+    - "traefik.http.routers.website-koen.rule=Host(`{{ websites.domain_koen }}`)"
     - "traefik.http.routers.website-koen.tls=true"
     - "traefik.http.routers.website-koen.tls.certresolver=letsencrypt"
-    - "traefik.http.middlewares.website-koen-geoip.forwardauth.address=http://localhost:8000/?locations=${ALLOWED_COUNTRIES}&ips=127.0.0.1,10.0.0.0/8"
+    - "traefik.http.middlewares.website-koen-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries }}&ips=127.0.0.1,10.0.0.0/8"
     - "traefik.http.routers.website-koen.middlewares=website-koen-geoip@docker"
 website-paul:
   container_name: website-paul
@@ -28,29 +28,29 @@ website-paul:
     - traefik
   restart: unless-stopped
   environment:
-    - TZ=${TZ}
+    - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/websites/${DOMAIN_PAUL}/config:/etc/nginx/conf.d:ro
-    - ${VOLUMES}/websites/${DOMAIN_PAUL}/logs:/var/log/nginx
-    - ${VOLUMES}/websites/${DOMAIN_PAUL}/public:/usr/share/nginx/html:ro
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/logs:/var/log/nginx
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/public:/usr/share/nginx/html:ro
   labels:
     - "traefik.enable=true"
     - "traefik.http.services.website-paul.loadbalancer.server.port=80"
     - "traefik.http.routers.website-paul.entrypoints=external"
-    - "traefik.http.routers.website-paul.rule=Host(`${DOMAIN_PAUL}`)"
+    - "traefik.http.routers.website-paul.rule=Host(`{{ websites.domain_paul }}`)"
     - "traefik.http.routers.website-paul.tls=true"
     - "traefik.http.routers.website-paul.tls.certresolver=letsencrypt"
-    - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations=${ALLOWED_COUNTRIES}&ips=127.0.0.1,10.0.0.0/8"
+    - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries }}&ips=127.0.0.1,10.0.0.0/8"
     - "traefik.http.routers.website-paul.middlewares=website-paul-geoip@docker"
 php:
   container_name: php
   image: php:fpm-alpine
   restart: unless-stopped
   environment:
-    - TZ=${TZ}
+    - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/websites/${DOMAIN_KOEN}/public:/var/www/html
+    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/public:/var/www/html
   ports:
     - 9000:9000

@@ -11,17 +11,17 @@ traefik:
     - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.modSecurityUrl=http://localhost:81"
     - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.maxBodySize=10485760"
   environment:
-    - TZ=${TZ}
-    - ${ACME_USERNAME_KEY}=${ACME_USERNAME_VALUE}
-    - ${ACME_PRIVATE_KEY_PATH}=letsencrypt.key
+    - TZ={{ global.timezone }}
+    - {{ letsencrypt.username.key }}={{ letsencrypt.username.value }}
+    - {{ letsencrypt.private_key_path }}=letsencrypt.key
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/../letsencrypt.key:/letsencrypt.key:ro
-    - ${VOLUMES}/traefik/acme:/etc/traefik/acme
-    - ${VOLUMES}/traefik/config:/etc/traefik
-    - ${VOLUMES}/traefik/logs:/var/logs
-    - ${VOLUMES}/geoip:/var/lib/geoip2:ro
+    - {{ global.docker_volumes }}/../letsencrypt.key:/letsencrypt.key:ro
+    - {{ global.docker_volumes }}/traefik/acme:/etc/traefik/acme
+    - {{ global.docker_volumes }}/traefik/config:/etc/traefik
+    - {{ global.docker_volumes }}/traefik/logs:/var/logs
+    - {{ global.docker_volumes }}/geoip:/var/lib/geoip2:ro
   restart: unless-stopped
   ports:
     - 80:80
@@ -34,7 +34,7 @@ whoami:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.whoami.entrypoints=internal"
-    - "traefik.http.routers.whoami.rule=Host(`whoami.${SERVER_NAME}`)"
+    - "traefik.http.routers.whoami.rule=Host(`whoami.{{ global.server.domain }}`)"
     - "traefik.http.services.whoami.loadbalancer.server.port=80"
 waf:
   image: owasp/modsecurity-crs:nginx-alpine
@@ -51,16 +51,16 @@ waf:
     - PORT=81
     - SSL_PORT=8443 #random om te voorkomen dat 443 wordt gebruikt
     - BACKEND=http://localhost:82
-    - DNS_SERVER=${SERVER_IPv4}
+    - DNS_SERVER={{ global.server.ipv4 }}
     - REAL_IP_HEADER=X-Real-Ip
     - SET_REAL_IP_FROM=127.0.0.1,172.18.0.0/16,172.20.0.0/16
     - MODSEC_AUDIT_LOG=/var/log/audit.log
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/traefik/waf/logging.conf.template:/etc/nginx/templates/conf.d/logging.conf.template
-    - ${VOLUMES}/traefik/waf/before.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
-    - ${VOLUMES}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
-    - ${VOLUMES}/traefik/waf/logs:/var/log
+    - {{ global.docker_volumes }}/traefik/waf/logging.conf.template:/etc/nginx/templates/conf.d/logging.conf.template
+    - {{ global.docker_volumes }}/traefik/waf/before.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+    - {{ global.docker_volumes }}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+    - {{ global.docker_volumes }}/traefik/waf/logs:/var/log
 waf-backend:
   image: traefik/whoami
   container_name: waf-backend

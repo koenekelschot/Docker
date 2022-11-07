@@ -2,13 +2,13 @@ geoip:
   image: maxmindinc/geoipupdate:latest
   container_name: geoip
   environment:
-    - GEOIPUPDATE_ACCOUNT_ID=${GEOIP_ACCOUNT}
-    - GEOIPUPDATE_LICENSE_KEY=${GEOIP_LICENSE}
+    - GEOIPUPDATE_ACCOUNT_ID={{ geoip.account }}
+    - GEOIPUPDATE_LICENSE_KEY={{ geoip.license }}
     - GEOIPUPDATE_EDITION_IDS=GeoLite2-City
     - GEOIPUPDATE_FREQUENCY=500
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/geoip:/usr/share/GeoIP
+    - {{ global.docker_volumes }}/geoip:/usr/share/GeoIP
   restart: unless-stopped
   healthcheck:
     test: ls /usr/share/GeoIP/GeoLite2-City.mmdb >/dev/null && exit 0 || exit 1
@@ -19,7 +19,7 @@ geoip-auth:
   container_name: geoip-auth
   network_mode: host
   volumes:
-    - ${VOLUMES}/geoip:/db:ro
+    - {{ global.docker_volumes }}/geoip:/db:ro
   restart: unless-stopped
   ports:
     - 8000:8000

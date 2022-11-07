@@ -1,13 +1,13 @@
 gitlab:
   image: gitlab/gitlab-ce:15.3.3-ce.0
   container_name: gitlab
-  hostname: gitlab.${SERVER_NAME}
+  hostname: gitlab.{{ global.server.domain }}
   environment:
     GITLAB_SKIP_UNMIGRATED_DATA_CHECK: 'true'
     GITLAB_OMNIBUS_CONFIG: |
       postgresql['enable'] = true
-      external_url 'http://gitlab.${SERVER_NAME}'
-      gitlab_rails['initial_root_password'] = '${GITLAB_ROOT_PASS}'
+      external_url 'http://gitlab.{{ global.server.domain }}'
+      gitlab_rails['initial_root_password'] = '{{ gitlab.root_pass }}'
       gitlab_rails['backup_keep_time'] = 2419200
       gitlab_rails['trusted_proxies'] = ['172.18.0.0/16','172.20.0.0/16']
       nginx['real_ip_trusted_addresses'] = ['172.18.0.0/16','172.20.0.0/16']
@@ -18,13 +18,13 @@ gitlab:
     - gitlab
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/gitlab/backup:/var/opt/gitlab/backups
-    - ${VOLUMES}/gitlab/config:/etc/gitlab
+    - {{ global.docker_volumes }}/gitlab/backup:/var/opt/gitlab/backups
+    - {{ global.docker_volumes }}/gitlab/config:/etc/gitlab
   restart: unless-stopped
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.gitlab.entrypoints=internal"
-    - "traefik.http.routers.gitlab.rule=Host(`gitlab.${SERVER_NAME}`)"
+    - "traefik.http.routers.gitlab.rule=Host(`gitlab.{{ global.server.domain }}`)"
     - "traefik.http.services.gitlab.loadbalancer.server.port=80"
 gitlab-runner:
   container_name: gitlab-runner
@@ -36,5 +36,5 @@ gitlab-runner:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/gitlab-runner:/etc/gitlab-runner
+    - {{ global.docker_volumes }}/gitlab-runner:/etc/gitlab-runner
   restart: unless-stopped

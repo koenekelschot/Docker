@@ -5,13 +5,13 @@ jackett:
     - nordvpn
   restart: unless-stopped
   environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${DOWNLOADS}/torrents:/torrents # place where to put .torrent files for manual download
-    - ${VOLUMES}:/config # config files (Jackett is appended)
+    - {{ global.downloads_folder }}/torrents:/torrents
+    - {{ global.docker_volumes }}:/config # Jackett is appended
   network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:9117/"]
@@ -20,5 +20,5 @@ jackett:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.jackett.entrypoints=internal"
-    - "traefik.http.routers.jackett.rule=Host(`torrents.${SERVER_NAME}`)"
+    - "traefik.http.routers.jackett.rule=Host(`torrents.{{ global.server.domain }}`)"
     - "traefik.http.services.jackett.loadbalancer.server.port=9117"

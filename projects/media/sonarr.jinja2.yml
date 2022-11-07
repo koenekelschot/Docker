@@ -5,14 +5,14 @@ sonarr:
     - nordvpn
   restart: unless-stopped
   environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/sonarr:/config # config files
-    - ${MEDIA}/Series:/series # tv shows folder
-    - ${DOWNLOADS}:/downloads # download folder
+    - {{ global.docker_volumes }}/sonarr:/config
+    - {{ global.media_folder }}/Series:/series
+    - {{ global.downloads_folder }}:/downloads
   network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:8989/"]
@@ -21,5 +21,5 @@ sonarr:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.sonarr.entrypoints=internal"
-    - "traefik.http.routers.sonarr.rule=Host(`series.${SERVER_NAME}`)"
+    - "traefik.http.routers.sonarr.rule=Host(`series.{{ global.server.domain }}`)"
     - "traefik.http.services.sonarr.loadbalancer.server.port=8989"

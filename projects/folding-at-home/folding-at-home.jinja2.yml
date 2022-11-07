@@ -6,20 +6,20 @@ folding-at-home:
   ports:
     - 36330:36330
   environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
-    - USER=${FAH_USER}
-    - PASSKEY=${FAH_PASS}
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
+    - USER={{ folding_at_home.user }}
+    - PASSKEY={{ folding_at_home.pass }}
     - TEAM=0
     - ENABLE_GPU=false
     - ENABLE_SMP=true
     - POWER=medium
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/folding-at-home:/opt/fahclient/work
+    - {{ global.docker_volumes }}/folding-at-home:/opt/fahclient/work
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.folding-at-home.entrypoints=internal"
-    - "traefik.http.routers.folding-at-home.rule=Host(`folding.${SERVER_NAME}`)"
+    - "traefik.http.routers.folding-at-home.rule=Host(`folding.{{ global.server.domain }}`)"
     - "traefik.http.services.folding-at-home.loadbalancer.server.port=7396"

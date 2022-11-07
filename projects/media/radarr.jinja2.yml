@@ -5,14 +5,14 @@ radarr:
     - nordvpn
   restart: unless-stopped
   environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/radarr:/config # config files
-    - ${MEDIA}/Movies:/movies # movies folder
-    - ${DOWNLOADS}:/downloads # download folder
+    - {{ global.docker_volumes }}/radarr:/config
+    - {{ global.media_folder }}/Movies:/movies
+    - {{ global.downloads_folder }}:/downloads
   network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:7878/"]
@@ -21,5 +21,5 @@ radarr:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.radarr.entrypoints=internal"
-    - "traefik.http.routers.radarr.rule=Host(`movies.${SERVER_NAME}`)"
+    - "traefik.http.routers.radarr.rule=Host(`movies.{{ global.server.domain }}`)"
     - "traefik.http.services.radarr.loadbalancer.server.port=7878"

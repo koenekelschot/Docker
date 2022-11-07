@@ -5,9 +5,9 @@ portainer:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /var/run/docker.sock:/var/run/docker.sock
-    - ${VOLUMES}/portainer:/data
+    - {{ global.docker_volumes }}/portainer:/data
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.portainer.entrypoints=internal"
-    - "traefik.http.routers.portainer.rule=Host(`portainer.${SERVER_NAME}`)"
+    - "traefik.http.routers.portainer.rule=Host(`portainer.{{ global.server.domain }}`)"
     - "traefik.http.services.portainer.loadbalancer.server.port=9000"

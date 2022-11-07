@@ -5,11 +5,11 @@ nordvpn:
     - adguard
   restart: unless-stopped
   environment:
-    - TZ=${TZ}
-    - USER=${VPN_USER}
-    - PASS=${VPN_PASS}
-    - TECHNOLOGY=NordLynx
-    - CONNECT=${VPN_CONNECT}
+    - TZ={{ global.timezone }}
+    - USER={{ vpn.user }}
+    - PASS={{ vpn.pass }}
+    - TECHNOLOGY={{ vpn.technology }}
+    - CONNECT={{ vpn.connect }}
   networks:
     vpn_net:
   cap_add:

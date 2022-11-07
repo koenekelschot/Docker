@@ -5,13 +5,13 @@ bazarr:
     - nordvpn
   restart: unless-stopped
   environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
   volumes:
-    - ${VOLUMES}/bazarr:/config # config files
-    - ${MEDIA}/Movies:/movies # movies folder
-    - ${MEDIA}/Series:/series # tv shows folder
+    - {{ global.docker_volumes }}/bazarr:/config
+    - {{ global.media_folder }}/Movies:/movies
+    - {{ global.media_folder }}/Series:/series
   network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:6767/"]
@@ -20,5 +20,5 @@ bazarr:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.bazarr.entrypoints=internal"
-    - "traefik.http.routers.bazarr.rule=Host(`subtitles.${SERVER_NAME}`)"
+    - "traefik.http.routers.bazarr.rule=Host(`subtitles.{{ global.server.domain }}`)"
     - "traefik.http.services.bazarr.loadbalancer.server.port=6767"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Retrieves the registration token from http://gitlab.${SERVER_NAME}/admin/runners
+# Retrieves the registration token from http://gitlab.{{ global.server.domain }}/admin/runners
 # and registers the runner based on the template
 
 if [ -f "config.toml" ] ; then
@@ -18,5 +18,5 @@ docker exec -it gitlab-runner \
     --registration-token "$token"
 
 # https://forum.gitlab.com/t/gitlab-runner-register-set-concurrency/3784
-sed -i 's/concurrent.*/concurrent = 3/' config.toml
+sed -i 's/concurrent.*/concurrent = {{ gitlab.concurrent_runners }}/' config.toml
 docker restart gitlab-runner

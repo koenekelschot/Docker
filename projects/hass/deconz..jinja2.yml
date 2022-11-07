@@ -3,7 +3,7 @@ deconz:
   image: deconzcommunity/deconz:stable
   restart: unless-stopped
   environment:
-    - TZ=${TZ}
+    - TZ={{ global.timezone }}
     - DECONZ_UID=0
     - DECONZ_GID=0
     - DECONZ_WEB_PORT=8124
@@ -12,7 +12,7 @@ deconz:
   network_mode: host
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/deconz:/opt/deCONZ
+    - {{ global.docker_volumes }}/deconz:/opt/deCONZ
   devices:
     - /dev/ttyUSB-CONBEE:/dev/ttyACM0
   healthcheck:
@@ -22,5 +22,5 @@ deconz:
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.deconz.entrypoints=internal"
-    - "traefik.http.routers.deconz.rule=Host(`deconz.${SERVER_NAME}`)"
+    - "traefik.http.routers.deconz.rule=Host(`deconz.{{ global.server.domain }}`)"
     - "traefik.http.services.deconz.loadbalancer.server.port=8124"

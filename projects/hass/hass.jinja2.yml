@@ -1,24 +1,24 @@
 homeassistant:
   container_name: homeassistant
-  image: homeassistant/home-assistant:${HA_VERSION}
+  image: homeassistant/home-assistant:{{ hass_version }}
   depends_on:
     - adguard
     - deconz
   restart: unless-stopped
   environment:
-    - PUID=${PUID}
-    - PGID=${PGID}
-    - TZ=${TZ}
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
   network_mode: host
   ports:
     - 8123:8123
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - ${VOLUMES}/homeassistant/config:/config
-    - ${VOLUMES}/homeassistant/data:/data
-    - ${VOLUMES}/homeassistant/logs/home-assistant.log:/config/home-assistant.log
-    - ${VOLUMES}/homeassistant/logs/home-assistant.log.1:/config/home-assistant.log.1
-    - ${VOLUMES}/homeassistant/logs/home-assistant.log.fault:/config/home-assistant.log.fault
+    - {{ global.docker_volumes }}/homeassistant/config:/config
+    - {{ global.docker_volumes }}/homeassistant/data:/data
+    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log:/config/home-assistant.log
+    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log.1:/config/home-assistant.log.1
+    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log.fault:/config/home-assistant.log.fault
   devices:
     - /dev/ttyUSB-RFLINK:/dev/rflink
   healthcheck:
@@ -30,10 +30,10 @@ homeassistant:
     - "traefik.http.services.hass.loadbalancer.server.port=8123"
     - "traefik.http.routers.hass-internal.service=hass"
     - "traefik.http.routers.hass-internal.entrypoints=internal"
-    - "traefik.http.routers.hass-internal.rule=Host(`hass.${SERVER_NAME}`)"
+    - "traefik.http.routers.hass-internal.rule=Host(`hass.{{ global.server.domain }}`)"
     - "traefik.http.routers.hass-external.service=hass"
     - "traefik.http.routers.hass-external.entrypoints=external"
-    - "traefik.http.routers.hass-external.rule=Host(`${HA_DOMAIN}`)"
+    - "traefik.http.routers.hass-external.rule=Host(`{{ hass.domain }}`)"
     - "traefik.http.routers.hass-external.tls=true"
     - "traefik.http.routers.hass-external.tls.certresolver=letsencrypt"
     # Allow NL, internal IPs, and Toon
