@@ -36,7 +36,7 @@ def import_env():
 def transform_deploy_scripts(variables):
     for source_path in glob.glob("**/deploy.jinja2.sh", recursive=True):
         print("Transforming: " + source_path)
-        target_path = source_path.replace(".jinja2", "")
+        target_path = source_path.replace(".jinja2.", ".")
         env = Environment(loader=FileSystemLoader("."))
         template = env.get_template(source_path)
         with open(target_path, "w") as target_file:
@@ -47,9 +47,9 @@ def combine_deploy_scripts():
     with open("deploy.sh", "r") as source_file:
         lines = source_file.readlines()
     for path in glob.glob("projects/**/deploy.sh", recursive=True):
-        with open(path, "r") as additional_file:
+        with open(path, "r") as merge_file:
             lines.append(os.linesep)
-            for line in additional_file.readlines():
+            for line in merge_file.readlines():
                 lines.append(line)
         os.remove(path)
     with open("deploy.sh", "w") as target_file:
@@ -65,7 +65,19 @@ def transform_jinja_files(variables):
             target_file.write(template.render(variables))
         os.remove(source_path)
 
+def combine_docker_compose():
+    with open("docker-compose.yml", "r") as source_file:
+        lines = source_file.readlines()
+    for path in glob.glob("projects/**/*.yml", recursive=False):
+        with open(path, "r") as merge_file:
+            for line in merge_file.readlines():
+                lines.append(line)
+        os.remove(path)
+    with open("docker-compose.yml", "w") as target_file:
+        target_file.writelines(lines)
+
 env_json = import_env()
 transform_deploy_scripts(env_json)
 combine_deploy_scripts()
 transform_jinja_files(env_json)
+combine_docker_compose()
