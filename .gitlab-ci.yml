@@ -30,7 +30,7 @@ build:
       - docker-compose.yml
       - post-deploy.sh
   script: 
-    - pylint ./build.py --rcfile=".pylintrc"
+    - pylint ./build.py
     - python ./build.py
 
 lint yaml:
