@@ -70,14 +70,30 @@ def combine_docker_compose():
         lines = source_file.readlines()
     for path in glob.glob("projects/**/*.yml", recursive=False):
         with open(path, "r") as merge_file:
+            lines.append(os.linesep)
             for line in merge_file.readlines():
                 lines.append(line)
         os.remove(path)
     with open("docker-compose.yml", "w") as target_file:
         target_file.writelines(lines)
 
+def combine_post_deploy_scripts():
+    with open("post-deploy.sh", "r") as source_file:
+        lines = source_file.readlines()
+    for path in glob.glob("projects/**/post-deploy.sh", recursive=True):
+        with open(path, "r") as merge_file:
+            lines.append(os.linesep)
+            for line in merge_file.readlines():
+                lines.append(line)
+        os.remove(path)
+    with open("post-deploy.sh", "w") as target_file:
+        target_file.writelines(lines)
+
 env_json = import_env()
+
 transform_deploy_scripts(env_json)
 combine_deploy_scripts()
+combine_post_deploy_scripts()
+
 transform_jinja_files(env_json)
 combine_docker_compose()

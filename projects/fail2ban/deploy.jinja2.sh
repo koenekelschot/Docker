@@ -8,9 +8,3 @@ copy_file ./projects/fail2ban/config/filter.d/hass-login.local {{ global.docker_
 copy_file ./projects/fail2ban/config/filter.d/traefik-block.local {{ global.docker_volumes }}/fail2ban/filter.d/traefik-block.local
 copy_file ./projects/fail2ban/config/filter.d/waf-block.local {{ global.docker_volumes }}/fail2ban/filter.d/waf-block.local
 copy_file ./projects/fail2ban/config/jail.d/jail.local {{ global.docker_volumes }}/fail2ban/jail.d/jail.local
-
-{% raw %}
-if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' fail2ban )" == "running" ]; then
-    /usr/local/bin/docker restart fail2ban
-fi
-{% endraw %}

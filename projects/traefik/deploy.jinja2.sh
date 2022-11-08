@@ -25,13 +25,3 @@ if [ ! -f /usr/syno/share/nginx/server.mustache.bak ]; then
     fix_dsm /usr/syno/share/nginx/WWWService.mustache
     /usr/syno/sbin/synoservicecfg --restart nginx
 fi
-
-{% raw %}
-# Reload config
-if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' traefik )" == "running" ]; then
-    /usr/local/bin/docker restart traefik
-fi
-if [ "$( /usr/local/bin/docker container inspect -f '{{.State.Status}}' waf )" == "running" ]; then
-    /usr/local/bin/docker restart waf
-fi
-{% endraw %}

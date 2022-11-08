@@ -21,9 +21,15 @@ run_deploy() {
     sshpass -e ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; echo \"$SSH_PASS\" | sudo -S ./deploy.sh"
 }
 
+run_post_deploy() {
+    echo "Starting post-deploy"
+    sshpass -e ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; echo \"$SSH_PASS\" | sudo -S ./post-deploy.sh"
+}
+
 export SSHPASS=$SSH_PASS
 copy_folder "cron"
 copy_folder "projects"
 copy_file "deploy.sh"
 copy_file "docker-compose.yml"
 run_deploy
+run_post_deploy
