@@ -18,15 +18,16 @@ def get_version_from_file(path: str) -> str:
     with open(path, "r") as file:
         return file.read()
 
-def merge_files(source_path: str, merge_paths: list[str]) -> None:
+def merge_files(source_path: str, merge_paths: list[str], prefix_merged_lines: str = "") -> None:
     with open(source_path, "r") as source_file:
         lines = source_file.readlines()
     for path in merge_paths:
         with open(path, "r") as merge_file:
             lines.append(os.linesep)
             lines.append("# original file: " + path)
+            lines.append(os.linesep)
             for line in merge_file.readlines():
-                lines.append(line)
+                lines.append(prefix_merged_lines + line)
     with open(source_path, "w") as target_file:
         target_file.writelines(lines)
 
@@ -76,7 +77,7 @@ def transform_jinja_files(variables: dict) -> None:
 
 def merge_docker_compose() -> None:
     to_merge = glob.glob("projects/**/*.yml", recursive=False)
-    merge_files("docker-compose.yml", to_merge)
+    merge_files("docker-compose.yml", to_merge, "  ")
     remove_files(to_merge)
 
 def merge_post_deploy_scripts() -> None:
