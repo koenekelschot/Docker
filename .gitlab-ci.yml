@@ -1,7 +1,5 @@
 ---
 default:
-  image: 
-    name: docker/compose:1.29.2
   before_script:
     # https://unix.stackexchange.com/a/417661
     - apk update && apk add openssh sshpass
@@ -43,11 +41,28 @@ lint yaml:
   before_script:
     - yamllint --version
   script:
-    - yamllint docker-compose.yml
+    - yamllint ./docker-compose.yml
     - yamllint ./projects
+
+shell check:
+  stage: test
+  image: koalaman/shellcheck-alpine:stable
+  dependencies: 
+    - build
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - shellcheck --version
+  script:
+    - shellcheck ./deploy.sh
+    - shellcheck ./deploy-gitlab.sh
+    - shellcheck ./post-deploy.sh
+    - shellcheck ./cron/*
+    - shellcheck ./projects/*
 
 validate docker-compose:
   stage: test
+  image: docker/compose:1.29.2
   dependencies: 
     - build
   variables:

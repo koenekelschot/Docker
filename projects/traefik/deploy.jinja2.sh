@@ -1,7 +1,7 @@
 fix_dsm() {
-    copy_file $1 $1.bak
-    sed -i "s/80/8880/g" $1
-    sed -i "s/443/8881/g" $1
+    copy_file "$1" "$1.bak"
+    sed -i "s/80/8880/g" "$1"
+    sed -i "s/443/8881/g" "$1"
 }
 
 echo "Deploy traefik"

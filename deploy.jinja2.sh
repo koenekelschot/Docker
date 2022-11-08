@@ -7,11 +7,11 @@ ensure_folder_exists() {
 }
 
 ensure_file_exists() {
-    touch $1
+    touch "$1"
 }
 
 copy_file() {
-    cp $1 $2
+    cp "$1" "$2"
 }
 
 chmod 755 -R /volume1/homes/{{ ssh_user }}
