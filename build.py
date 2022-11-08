@@ -63,7 +63,7 @@ def transform_deploy_scripts(variables: dict) -> None:
     files = glob.glob("**/deploy.jinja2.sh", recursive=True)
     transform_files(files, variables)
     remove_files(files)
-    
+
 def transform_jinja_files(variables: dict) -> None:
     files = glob.glob("projects/**/*.jinja2.*", recursive=True)
     transform_files(files, variables)

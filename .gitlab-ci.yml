@@ -19,7 +19,7 @@ build:
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_HOST_KEY" > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - pip3 install Jinja2
+    - pip3 install Jinja2 pylint
   artifacts:
     paths:
       - cron
@@ -29,7 +29,9 @@ build:
       - deploy-gitlab.sh
       - docker-compose.yml
       - post-deploy.sh
-  script: python ./build.py
+  script: 
+    - pylint ./build.py --rcfile=".pylintrc"
+    - python ./build.py
 
 lint yaml:
   stage: test
