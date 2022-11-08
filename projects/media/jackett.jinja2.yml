@@ -11,7 +11,7 @@ jackett:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{ global.downloads_folder }}/torrents:/torrents
-    - {{ global.docker_volumes }}:/config # Jackett is appended
+    - {{ global.docker_volumes }}:/config  # Jackett is appended
   network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:9117/"]

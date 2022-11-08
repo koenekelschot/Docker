@@ -1,6 +1,6 @@
 nordvpn:
   container_name: nordvpn
-  image: bubuntux/nordvpn:v3.9.1 #https://github.com/bubuntux/nordvpn/discussions/202
+  image: bubuntux/nordvpn:v3.9.1  # https://github.com/bubuntux/nordvpn/discussions/202
   depends_on:
     - adguard
   restart: unless-stopped

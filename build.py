@@ -2,7 +2,7 @@ import glob
 import os
 import json
 import subprocess
-from jinja2 import FileSystemLoader, Environment
+from jinja2 import Template
 
 def get_ssh_path(path: str) -> str:
     user = os.getenv('SSH_USER')
@@ -23,13 +23,22 @@ def merge_files(source_path: str, merge_paths: list[str], prefix_merged_lines: s
         lines = source_file.readlines()
     for path in merge_paths:
         with open(path, "r") as merge_file:
-            lines.append(os.linesep)
-            lines.append("# original file: " + path)
+            lines.append(prefix_merged_lines + "# original file: " + path)
             lines.append(os.linesep)
             for line in merge_file.readlines():
                 lines.append(prefix_merged_lines + line)
     with open(source_path, "w") as target_file:
         target_file.writelines(lines)
+
+def transform_files(files: list[str], variables: dict) -> None:
+    for source_file in files:
+        print("Transforming: " + source_file)
+        target_path = source_file.replace(".jinja2.", ".")
+        with open(source_file, "r") as file:
+            data = file.read()
+        template = Template(data, keep_trailing_newline=True)
+        with open(target_path, "w") as target_file:
+            target_file.write(template.render(variables))
 
 def remove_files(files: list[str]) -> None:
     for file in files:
@@ -51,29 +60,19 @@ def import_env() -> dict:
     return data
 
 def transform_deploy_scripts(variables: dict) -> None:
-    for source_path in glob.glob("**/deploy.jinja2.sh", recursive=True):
-        print("Transforming: " + source_path)
-        target_path = source_path.replace(".jinja2.", ".")
-        env = Environment(loader=FileSystemLoader("."))
-        template = env.get_template(source_path)
-        with open(target_path, "w") as target_file:
-            target_file.write(template.render(variables))
-        os.remove(source_path)
+    files = glob.glob("**/deploy.jinja2.sh", recursive=True)
+    transform_files(files, variables)
+    remove_files(files)
+    
+def transform_jinja_files(variables: dict) -> None:
+    files = glob.glob("projects/**/*.jinja2.*", recursive=True)
+    transform_files(files, variables)
+    remove_files(files)
 
 def merge_deploy_scripts() -> None:
     to_merge = glob.glob("projects/**/deploy.sh", recursive=True)
     merge_files("deploy.sh", to_merge)
     remove_files(to_merge)
-
-def transform_jinja_files(variables: dict) -> None:
-    for source_path in glob.glob("projects/**/*.jinja2.*", recursive=True):
-        print("Transforming: " + source_path)
-        target_path = source_path.replace(".jinja2.", ".")
-        env = Environment(loader=FileSystemLoader("."))
-        template = env.get_template(source_path)
-        with open(target_path, "w") as target_file:
-            target_file.write(template.render(variables))
-        os.remove(source_path)
 
 def merge_docker_compose() -> None:
     to_merge = glob.glob("projects/**/*.yml", recursive=False)

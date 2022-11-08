@@ -26,17 +26,40 @@ build:
     paths:
       - cron
       - projects
-      - docker-compose.yml
+      - .yamllint
       - deploy.sh
+      - deploy-gitlab.sh
+      - docker-compose.yml
       - post-deploy.sh
   script: python ./build.py
 
-test:
+lint yaml:
   stage: test
+  image: sdesbure/yamllint
+  dependencies: 
+    - build
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - yamllint --version
+  script:
+    - yamllint docker-compose.yml
+    - yamllint ./projects
+
+validate docker-compose:
+  stage: test
+  dependencies: 
+    - build
+  variables:
+    GIT_STRATEGY: none
   script: docker-compose config
 
 deploy:
   stage: deploy
+  dependencies: 
+    - build
+  variables:
+    GIT_STRATEGY: none
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script: 
