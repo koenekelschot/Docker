@@ -8,7 +8,7 @@ geoip:
     - GEOIPUPDATE_FREQUENCY=500
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/geoip:/usr/share/GeoIP
+    - {{ global.docker_volume }}/geoip:/usr/share/GeoIP
   restart: unless-stopped
   healthcheck:
     test: ls /usr/share/GeoIP/GeoLite2-City.mmdb >/dev/null && exit 0 || exit 1
@@ -19,7 +19,7 @@ geoip-auth:
   container_name: geoip-auth
   network_mode: host
   volumes:
-    - {{ global.docker_volumes }}/geoip:/db:ro
+    - {{ global.docker_volume }}/geoip:/db:ro
   restart: unless-stopped
   ports:
     - 8000:8000

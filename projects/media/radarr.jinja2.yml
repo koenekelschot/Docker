@@ -10,7 +10,7 @@ radarr:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/radarr:/config
+    - {{ global.docker_volume }}/radarr:/config
     - {{ global.media_folder }}/Movies:/movies
     - {{ global.downloads_folder }}:/downloads
   network_mode: service:nordvpn

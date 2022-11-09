@@ -2,10 +2,10 @@
 # shellcheck disable=SC2148
 
 # shellcheck disable=SC1091
-. {{ global.docker_volumes }}/cron/log.sh
+. {{ global.docker_volume }}/cron/log.sh
 
 log "Starting backup"
-cd {{ global.docker_volumes }} || exit
+cd {{ global.docker_volume }} || exit
 docker-compose down
 date=$(date +"%Y%m%d")
 tar czvf "/volume1/Backups/Docker/${date}.tar.gz" ./

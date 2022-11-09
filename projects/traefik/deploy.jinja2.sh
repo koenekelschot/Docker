@@ -5,17 +5,17 @@ fix_dsm() {
 }
 
 echo "Deploy traefik"
-ensure_folder_exists {{ global.docker_volumes }}/traefik/acme
-ensure_folder_exists {{ global.docker_volumes }}/traefik/config
-ensure_folder_exists {{ global.docker_volumes }}/traefik/logs
-ensure_folder_exists {{ global.docker_volumes }}/traefik/waf/logs/nginx
-ensure_file_exists {{ global.docker_volumes }}/traefik/waf/logs/nginx/access.log
-ensure_file_exists {{ global.docker_volumes }}/traefik/waf/logs/nginx/error.log
-copy_file ./projects/traefik/config/traefik.yml {{ global.docker_volumes }}/traefik/config/traefik.yml
-copy_file ./projects/traefik/config/config.yml {{ global.docker_volumes }}/traefik/config/config.yml
-copy_file ./projects/traefik/waf/logging.conf.template {{ global.docker_volumes }}/traefik/waf/logging.conf.template
-copy_file ./projects/traefik/waf/before.conf {{ global.docker_volumes }}/traefik/waf/before.conf
-copy_file ./projects/traefik/waf/after.conf {{ global.docker_volumes }}/traefik/waf/after.conf
+ensure_folder_exists {{ global.docker_volume }}/traefik/acme
+ensure_folder_exists {{ global.docker_volume }}/traefik/config
+ensure_folder_exists {{ global.docker_volume }}/traefik/logs
+ensure_folder_exists {{ global.docker_volume }}/traefik/waf/logs/nginx
+ensure_file_exists {{ global.docker_volume }}/traefik/waf/logs/nginx/access.log
+ensure_file_exists {{ global.docker_volume }}/traefik/waf/logs/nginx/error.log
+copy_file ./projects/traefik/config/traefik.yml {{ global.docker_volume }}/traefik/config/traefik.yml
+copy_file ./projects/traefik/config/config.yml {{ global.docker_volume }}/traefik/config/config.yml
+copy_file ./projects/traefik/waf/logging.conf.template {{ global.docker_volume }}/traefik/waf/logging.conf.template
+copy_file ./projects/traefik/waf/before.conf {{ global.docker_volume }}/traefik/waf/before.conf
+copy_file ./projects/traefik/waf/after.conf {{ global.docker_volume }}/traefik/waf/after.conf
 
 # Freeing up port 80 on Synology DSM, rewrites port 80 to 8880 and 443 to 8881
 # https://stackoverflow.com/a/55561347

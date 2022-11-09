@@ -17,11 +17,11 @@ traefik:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/../letsencrypt.key:/letsencrypt.key:ro
-    - {{ global.docker_volumes }}/traefik/acme:/etc/traefik/acme
-    - {{ global.docker_volumes }}/traefik/config:/etc/traefik
-    - {{ global.docker_volumes }}/traefik/logs:/var/logs
-    - {{ global.docker_volumes }}/geoip:/var/lib/geoip2:ro
+    - {{ global.docker_volume }}/../letsencrypt.key:/letsencrypt.key:ro
+    - {{ global.docker_volume }}/traefik/acme:/etc/traefik/acme
+    - {{ global.docker_volume }}/traefik/config:/etc/traefik
+    - {{ global.docker_volume }}/traefik/logs:/var/logs
+    - {{ global.docker_volume }}/geoip:/var/lib/geoip2:ro
   restart: unless-stopped
   ports:
     - 80:80
@@ -57,10 +57,10 @@ waf:
     - MODSEC_AUDIT_LOG=/var/log/audit.log
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/traefik/waf/logging.conf.template:/etc/nginx/templates/conf.d/logging.conf.template
-    - {{ global.docker_volumes }}/traefik/waf/before.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
-    - {{ global.docker_volumes }}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
-    - {{ global.docker_volumes }}/traefik/waf/logs:/var/log
+    - {{ global.docker_volume }}/traefik/waf/logging.conf.template:/etc/nginx/templates/conf.d/logging.conf.template
+    - {{ global.docker_volume }}/traefik/waf/before.conf:/etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+    - {{ global.docker_volume }}/traefik/waf/after.conf:/etc/modsecurity.d/owasp-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
+    - {{ global.docker_volume }}/traefik/waf/logs:/var/log
 waf-backend:
   image: traefik/whoami
   container_name: waf-backend

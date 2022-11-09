@@ -9,9 +9,9 @@ website-koen:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/config:/etc/nginx/conf.d:ro
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/logs:/var/log/nginx
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/public:/usr/share/nginx/html:ro
+    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/logs:/var/log/nginx
+    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/usr/share/nginx/html:ro
   labels:
     - "traefik.enable=true"
     - "traefik.http.services.website-koen.loadbalancer.server.port=80"
@@ -31,9 +31,9 @@ website-paul:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/config:/etc/nginx/conf.d:ro
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/logs:/var/log/nginx
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_paul }}/public:/usr/share/nginx/html:ro
+    - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/logs:/var/log/nginx
+    - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/public:/usr/share/nginx/html:ro
   labels:
     - "traefik.enable=true"
     - "traefik.http.services.website-paul.loadbalancer.server.port=80"
@@ -51,6 +51,6 @@ php:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/websites/{{ websites.domain_koen }}/public:/var/www/html
+    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/var/www/html
   ports:
     - 9000:9000

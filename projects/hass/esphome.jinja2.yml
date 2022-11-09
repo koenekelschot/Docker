@@ -9,7 +9,7 @@ esphome:
   network_mode: host
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/esphome:/config
+    - {{ global.docker_volume }}/esphome:/config
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.esphome.entrypoints=internal"

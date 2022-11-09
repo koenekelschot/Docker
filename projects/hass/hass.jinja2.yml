@@ -14,11 +14,11 @@ homeassistant:
     - 8123:8123
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/homeassistant/config:/config
-    - {{ global.docker_volumes }}/homeassistant/data:/data
-    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log:/config/home-assistant.log
-    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log.1:/config/home-assistant.log.1
-    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log.fault:/config/home-assistant.log.fault
+    - {{ global.docker_volume }}/homeassistant/config:/config
+    - {{ global.docker_volume }}/homeassistant/data:/data
+    - {{ global.docker_volume }}/homeassistant/logs/home-assistant.log:/config/home-assistant.log
+    - {{ global.docker_volume }}/homeassistant/logs/home-assistant.log.1:/config/home-assistant.log.1
+    - {{ global.docker_volume }}/homeassistant/logs/home-assistant.log.fault:/config/home-assistant.log.fault
   devices:
     - /dev/ttyUSB-RFLINK:/dev/rflink
   healthcheck:

@@ -6,10 +6,10 @@ fail2ban:
     - F2B_LOG_TARGET=/data/fail2ban.log
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/fail2ban:/data
-    - {{ global.docker_volumes }}/traefik/logs:/config/log/traefik:ro
-    - {{ global.docker_volumes }}/traefik/waf/logs/nginx:/config/log/waf:ro
-    - {{ global.docker_volumes }}/homeassistant/logs/home-assistant.log:/config/log/homeassistant/home-assistant.log:ro
+    - {{ global.docker_volume }}/fail2ban:/data
+    - {{ global.docker_volume }}/traefik/logs:/config/log/traefik:ro
+    - {{ global.docker_volume }}/traefik/waf/logs/nginx:/config/log/waf:ro
+    - {{ global.docker_volume }}/homeassistant/logs/home-assistant.log:/config/log/homeassistant/home-assistant.log:ro
   network_mode: host
   cap_add:
     - NET_ADMIN

@@ -12,7 +12,7 @@ deconz:
   network_mode: host
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/deconz:/opt/deCONZ
+    - {{ global.docker_volume }}/deconz:/opt/deCONZ
   devices:
     - /dev/ttyUSB-CONBEE:/dev/ttyACM0
   healthcheck:

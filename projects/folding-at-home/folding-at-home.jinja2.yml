@@ -17,7 +17,7 @@ folding-at-home:
     - POWER=medium
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/folding-at-home:/opt/fahclient/work
+    - {{ global.docker_volume }}/folding-at-home:/opt/fahclient/work
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.folding-at-home.entrypoints=internal"

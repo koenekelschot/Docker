@@ -18,8 +18,8 @@ gitlab:
     - gitlab
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/gitlab/backup:/var/opt/gitlab/backups
-    - {{ global.docker_volumes }}/gitlab/config:/etc/gitlab
+    - {{ global.docker_volume }}/gitlab/backup:/var/opt/gitlab/backups
+    - {{ global.docker_volume }}/gitlab/config:/etc/gitlab
   restart: unless-stopped
   labels:
     - "traefik.enable=true"
@@ -36,5 +36,5 @@ gitlab-runner:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/gitlab-runner:/etc/gitlab-runner
+    - {{ global.docker_volume }}/gitlab-runner:/etc/gitlab-runner
   restart: unless-stopped

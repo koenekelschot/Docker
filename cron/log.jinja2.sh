@@ -1,7 +1,7 @@
 # shellcheck disable=SC2148
 
 log() {
-    local folder={{ global.docker_volumes }}/logs
+    local folder={{ global.docker_volume }}/logs
     local file=$folder/cron.log
 
     test -d $folder || mkdir -p $folder

@@ -2,7 +2,7 @@
 # shellcheck disable=SC2148
 
 # shellcheck disable=SC1091
-. {{ global.docker_volumes }}/cron/log.sh
+. {{ global.docker_volume }}/cron/log.sh
 
 restart_gitlab() {
     log "Restarting"

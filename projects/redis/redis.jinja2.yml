@@ -7,7 +7,7 @@ redis:
     - 6379:6379
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/redis/data:/data
+    - {{ global.docker_volume }}/redis/data:/data
   restart: unless-stopped
   labels:
     - "traefik.enable=true"

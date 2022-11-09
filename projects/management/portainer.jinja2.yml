@@ -5,7 +5,7 @@ portainer:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - /var/run/docker.sock:/var/run/docker.sock
-    - {{ global.docker_volumes }}/portainer:/data
+    - {{ global.docker_volume }}/portainer:/data
   labels:
     - "traefik.enable=true"
     - "traefik.http.routers.portainer.entrypoints=internal"

@@ -9,7 +9,7 @@ bazarr:
     - PGID={{ global.group_id }}
     - TZ={{ global.timezone }}
   volumes:
-    - {{ global.docker_volumes }}/bazarr:/config
+    - {{ global.docker_volume }}/bazarr:/config
     - {{ global.media_folder }}/Movies:/movies
     - {{ global.media_folder }}/Series:/series
   network_mode: service:nordvpn

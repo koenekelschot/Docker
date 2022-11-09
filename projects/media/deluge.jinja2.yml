@@ -10,7 +10,7 @@ deluge:
     - TZ={{ global.timezone }}
   volumes:
     - {{ global.downloads_folder }}:/downloads
-    - {{ global.docker_volumes }}/deluge:/config
+    - {{ global.docker_volume }}/deluge:/config
   network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:8112/"]

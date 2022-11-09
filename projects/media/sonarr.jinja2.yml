@@ -10,7 +10,7 @@ sonarr:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volumes }}/sonarr:/config
+    - {{ global.docker_volume }}/sonarr:/config
     - {{ global.media_folder }}/Series:/series
     - {{ global.downloads_folder }}:/downloads
   network_mode: service:nordvpn
