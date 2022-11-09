@@ -1,10 +1,12 @@
+# shellcheck disable=SC2148
+
 log() {
-    local folder=/volume1/docker/logs
+    local folder={{ global.docker_volumes }}/logs
     local file=$folder/cron.log
 
     test -d $folder || mkdir -p $folder
     touch $file
 
     echo "$(date '+%F %T') | $1" >> $file
-    echo $1
+    echo "$1"
 }

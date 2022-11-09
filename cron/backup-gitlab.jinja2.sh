@@ -1,5 +1,8 @@
 # runs as root every day at 03:00
-. /volume1/docker/cron/log.sh
+# shellcheck disable=SC2148
+
+# shellcheck disable=SC1091
+. {{ global.docker_volumes }}/cron/log.sh
 
 restart_gitlab() {
     log "Restarting"
@@ -20,7 +23,9 @@ if [[ $output == *"Rails Error"* ]]; then
     log "Gitlab (permission) error, restarting first"
     restart_gitlab
     log "Waiting until container is started"
-    until [ "`/usr/local/bin/docker inspect -f {{.State.Running}} gitlab`" == "true" ]; do
+    {% raw %}
+    until [ "$(/usr/local/bin/docker inspect -f '{{.State.Running}}' gitlab)" == "true" ]; do
+    {% endraw %}
         sleep 0.1;
     done;
     create_backup

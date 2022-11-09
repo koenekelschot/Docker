@@ -65,9 +65,12 @@ def transform_deploy_scripts(variables: dict) -> None:
     remove_files(files)
 
 def transform_jinja_files(variables: dict) -> None:
-    files = glob.glob("projects/**/*.jinja2.*", recursive=True)
-    transform_files(files, variables)
-    remove_files(files)
+    cron_files = glob.glob("cron/*.jinja2.*", recursive=False)
+    transform_files(cron_files, variables)
+    remove_files(cron_files)
+    project_files = glob.glob("projects/**/*.jinja2.*", recursive=True)
+    transform_files(project_files, variables)
+    remove_files(project_files)
 
 def merge_deploy_scripts() -> None:
     to_merge = glob.glob("projects/**/deploy.sh", recursive=True)
