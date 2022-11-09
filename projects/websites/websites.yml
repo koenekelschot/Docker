@@ -12,7 +12,12 @@ website-koen:
     - ${VOLUMES}/websites/${DOMAIN_KOEN}/config:/etc/nginx/conf.d:ro
     - ${VOLUMES}/websites/${DOMAIN_KOEN}/logs:/var/log/nginx
     - ${VOLUMES}/websites/${DOMAIN_KOEN}/public:/usr/share/nginx/html:ro
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost/"]
+    interval: 30s
+    timeout: 5s
   labels:
+    - "autoheal=true"
     - "traefik.enable=true"
     - "traefik.http.services.website-koen.loadbalancer.server.port=80"
     - "traefik.http.routers.website-koen.entrypoints=external"
@@ -34,7 +39,12 @@ website-paul:
     - ${VOLUMES}/websites/${DOMAIN_PAUL}/config:/etc/nginx/conf.d:ro
     - ${VOLUMES}/websites/${DOMAIN_PAUL}/logs:/var/log/nginx
     - ${VOLUMES}/websites/${DOMAIN_PAUL}/public:/usr/share/nginx/html:ro
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost/"]
+    interval: 30s
+    timeout: 5s
   labels:
+    - "autoheal=true"
     - "traefik.enable=true"
     - "traefik.http.services.website-paul.loadbalancer.server.port=80"
     - "traefik.http.routers.website-paul.entrypoints=external"
