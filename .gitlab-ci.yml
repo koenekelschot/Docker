@@ -1,8 +1,11 @@
 ---
-default:
-  before_script:
-    # https://unix.stackexchange.com/a/417661
-    - apk update && apk add openssh sshpass
+.ssh_before_script: &ssh_before_script
+  - apk update && apk add openssh-client rsync
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+  - echo "$SSH_HOST_KEY" > ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
 
 stages:
   - build
@@ -13,12 +16,7 @@ build:
   stage: build
   image: python:3.11-alpine
   before_script:
-    - apk update && apk add openssh-client rsync
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo "$SSH_HOST_KEY" > ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
+    - *ssh_before_script
     - pip3 install Jinja2 pylint
   artifacts:
     paths:
@@ -26,7 +24,6 @@ build:
       - projects
       - .yamllint
       - deploy.sh
-      - deploy-gitlab.sh
       - docker-compose.yml
       - post-deploy.sh
   script: 
@@ -57,7 +54,6 @@ shell check:
     - shellcheck --version
   script:
     - shellcheck ./deploy.sh
-    - shellcheck ./deploy-gitlab.sh
     - shellcheck ./post-deploy.sh
     - shellcheck ./cron/*
     - shellcheck ./projects/*
@@ -79,5 +75,13 @@ deploy:
     GIT_STRATEGY: none
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - *ssh_before_script
   script: 
-    - sh ./deploy-gitlab.sh
+    - rsync -athv --delete --stats ./cron/ $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/cron/
+    - rsync -athv --delete --stats ./projects/ $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/projects/
+    - rsync -athv deploy.sh $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/deploy.sh
+    - rsync -athv docker-compose.yml $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/docker-compose.yml
+    - rsync -athv post-deploy.sh $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/post-deploy.sh
+    - ssh $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; sudo -S ./deploy.sh"
+    - ssh $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; sudo -S ./post-deploy.sh"
