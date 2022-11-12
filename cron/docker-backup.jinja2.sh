@@ -2,7 +2,7 @@
 # shellcheck disable=SC2148
 
 # shellcheck disable=SC1091
-. {{ global.docker_volume }}/cron/log.sh
+. {{ global.cron_folder }}/log.sh
 
 log "Starting backup"
 cd {{ global.docker_volume }} || exit

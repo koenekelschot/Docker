@@ -2,7 +2,7 @@
 # shellcheck disable=SC2148
 
 # shellcheck disable=SC1091
-. {{ global.docker_volume }}/cron/log.sh
+. {{ global.cron_folder }}/log.sh
 
 log "Restarting Deluge"
 log "$(/usr/local/bin/docker restart deluge 2>&1)"

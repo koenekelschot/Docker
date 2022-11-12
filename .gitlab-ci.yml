@@ -83,5 +83,5 @@ deploy:
     - rsync -athv deploy.sh $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/deploy.sh
     - rsync -athv docker-compose.yml $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/docker-compose.yml
     - rsync -athv post-deploy.sh $SSH_USER@$SSH_HOST:$SSH_FOLDER_DOCKER/post-deploy.sh
-    - ssh $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; sudo -S ./deploy.sh"
-    - ssh $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; sudo -S ./post-deploy.sh"
+    - ssh $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; sudo -S sh ./deploy.sh"
+    - ssh $SSH_USER@$SSH_HOST "cd $SSH_FOLDER_DOCKER; sudo -S sh ./post-deploy.sh"

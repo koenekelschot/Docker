@@ -2,7 +2,7 @@
 # shellcheck disable=SC2148
 
 # shellcheck disable=SC1091
-. {{ global.docker_volume }}/cron/log.sh
+. {{ global.cron_folder }}/log.sh
 
 log "Starting Docker system prune"
 log "$(/usr/local/bin/docker system prune -a -f 2>&1)"

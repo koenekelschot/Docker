@@ -1,3 +1,3 @@
 echo "Deploy VPN"
 # shellcheck disable=SC1091
-. {{ global.docker_volume }}/cron/create-vpn.sh
+. {{ global.cron_folder }}/create-vpn.sh

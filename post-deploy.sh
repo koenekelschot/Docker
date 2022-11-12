@@ -7,3 +7,5 @@ empty_folder() {
 /usr/local/bin/docker-compose up -d --build --remove-orphans
 
 empty_folder "projects"
+rm "deploy.sh"
+rm "post-deploy.sh"
