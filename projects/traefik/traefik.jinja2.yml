@@ -1,5 +1,5 @@
 traefik:
-  image: traefik:v2.8.4
+  image: traefik:v2.9
   container_name: traefik
   network_mode: host
   depends_on:
