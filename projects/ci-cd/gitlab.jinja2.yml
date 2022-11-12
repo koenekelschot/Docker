@@ -9,8 +9,8 @@ gitlab:
       external_url 'http://gitlab.{{ global.server.domain }}'
       gitlab_rails['initial_root_password'] = '{{ gitlab.root_pass }}'
       gitlab_rails['backup_keep_time'] = 2419200
-      gitlab_rails['trusted_proxies'] = ['172.18.0.0/16','172.20.0.0/16']
-      nginx['real_ip_trusted_addresses'] = ['172.18.0.0/16','172.20.0.0/16']
+      gitlab_rails['trusted_proxies'] = {{ global.docker_ips }}
+      nginx['real_ip_trusted_addresses'] = {{ global.docker_ips }}
       nginx['real_ip_header'] = 'X-Real-Ip'
       nginx['real_ip_recursive'] = 'on'
       nginx['listen_port'] = 80

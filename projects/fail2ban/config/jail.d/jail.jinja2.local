@@ -68,7 +68,7 @@ filter      = traefik-block
 action      = iptables-allports[name=traefikblock]
 logpath     = /config/log/traefik/access.log
 maxretry    = 1
-ignoreip    = 127.0.0.1/8 10.0.0.1/32 10.1.0.0/24 10.2.0.0/24 10.3.0.0/24 10.5.0.0/24
+ignoreip    = {{ global.internal_ips|join(',') }}
 
 
 [hass-login]

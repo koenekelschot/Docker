@@ -24,7 +24,7 @@ website-koen:
     - "traefik.http.routers.website-koen.rule=Host(`{{ websites.domain_koen }}`)"
     - "traefik.http.routers.website-koen.tls=true"
     - "traefik.http.routers.website-koen.tls.certresolver=letsencrypt"
-    - "traefik.http.middlewares.website-koen-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries }}&ips=127.0.0.1,10.0.0.0/8"
+    - "traefik.http.middlewares.website-koen-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
     - "traefik.http.routers.website-koen.middlewares=website-koen-geoip@docker"
 website-paul:
   container_name: website-paul
@@ -51,7 +51,7 @@ website-paul:
     - "traefik.http.routers.website-paul.rule=Host(`{{ websites.domain_paul }}`)"
     - "traefik.http.routers.website-paul.tls=true"
     - "traefik.http.routers.website-paul.tls.certresolver=letsencrypt"
-    - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries }}&ips=127.0.0.1,10.0.0.0/8"
+    - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
     - "traefik.http.routers.website-paul.middlewares=website-paul-geoip@docker"
 php:
   container_name: php

@@ -53,7 +53,7 @@ waf:
     - BACKEND=http://localhost:82
     - DNS_SERVER={{ global.server.ipv4 }}
     - REAL_IP_HEADER=X-Real-Ip
-    - SET_REAL_IP_FROM=127.0.0.1,172.18.0.0/16,172.20.0.0/16
+    - SET_REAL_IP_FROM=127.0.0.1,{{ global.docker_ips|join(',') }}
     - MODSEC_AUDIT_LOG=/var/log/audit.log
   volumes:
     - /etc/localtime:/etc/localtime:ro
