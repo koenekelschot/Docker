@@ -12,7 +12,12 @@ website-koen:
     - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/config:/etc/nginx/conf.d:ro
     - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/logs:/var/log/nginx
     - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/usr/share/nginx/html:ro
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost/"]
+    interval: 30s
+    timeout: 5s
   labels:
+    - "autoheal=true"
     - "traefik.enable=true"
     - "traefik.http.services.website-koen.loadbalancer.server.port=80"
     - "traefik.http.routers.website-koen.entrypoints=external"
@@ -34,7 +39,12 @@ website-paul:
     - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/config:/etc/nginx/conf.d:ro
     - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/logs:/var/log/nginx
     - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/public:/usr/share/nginx/html:ro
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost/"]
+    interval: 30s
+    timeout: 5s
   labels:
+    - "autoheal=true"
     - "traefik.enable=true"
     - "traefik.http.services.website-paul.loadbalancer.server.port=80"
     - "traefik.http.routers.website-paul.entrypoints=external"
