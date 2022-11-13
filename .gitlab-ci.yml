@@ -26,6 +26,7 @@ build:
       - deploy.sh
       - docker-compose.yml
       - post-deploy.sh
+      - validate-nginx.sh
   script: 
     - pylint ./build.py
     - python ./build.py
@@ -55,6 +56,7 @@ shell check:
   script:
     - shellcheck ./deploy.sh
     - shellcheck ./post-deploy.sh
+    - shellcheck ./validate-nginx.sh
     - shellcheck ./cron/*
     - for file in $(find ./projects -type f -name '*.sh'); do shellcheck $file; done;
 
@@ -66,6 +68,18 @@ validate docker-compose:
   variables:
     GIT_STRATEGY: none
   script: docker-compose config
+
+validate nginx configs:
+  stage: test
+  image: nginx:alpine
+  dependencies: 
+    - build
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - sh ./validate-nginx.sh ./projects/websites/config/koen.conf
+    - sh ./validate-nginx.sh ./projects/websites/config/paul.conf
+    - sh ./validate-nginx.sh ./projects/websites/config/php-status.conf
 
 deploy:
   stage: deploy
