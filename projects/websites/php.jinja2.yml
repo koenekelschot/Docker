@@ -1,0 +1,35 @@
+php-fpm:
+  container_name: php-fpm
+  image: php:fpm-alpine
+  restart: unless-stopped
+  environment:
+    - TZ={{ global.timezone }}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - {{ global.docker_volume }}/websites/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
+    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/var/www/html
+  ports:
+    - 9000:9000
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://php-status/ping"]
+    interval: 30s
+    timeout: 5s
+  labels:
+    - "autoheal=true"
+php-status:
+  container_name: php-status
+  image: nginx:alpine
+  depends_on:
+    - php-fpm
+  restart: unless-stopped
+  environment:
+    - TZ={{ global.timezone }}
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - {{ global.docker_volume }}/websites/php-status/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volume }}/websites/php-status/logs:/var/log/nginx
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.services.php-status.loadbalancer.server.port=80"
+    - "traefik.http.routers.php-status.entrypoints=internal"
+    - "traefik.http.routers.php-status.rule=Host(`php-status.{{ global.server.domain }}`)"

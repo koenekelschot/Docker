@@ -3,7 +3,7 @@ website-koen:
   image: nginx:alpine
   depends_on:
     - traefik
-    - php
+    - php-fpm
   restart: unless-stopped
   environment:
     - TZ={{ global.timezone }}
@@ -53,14 +53,3 @@ website-paul:
     - "traefik.http.routers.website-paul.tls.certresolver=letsencrypt"
     - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
     - "traefik.http.routers.website-paul.middlewares=website-paul-geoip@docker"
-php:
-  container_name: php
-  image: php:fpm-alpine
-  restart: unless-stopped
-  environment:
-    - TZ={{ global.timezone }}
-  volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/var/www/html
-  ports:
-    - 9000:9000
