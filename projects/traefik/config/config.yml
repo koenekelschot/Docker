@@ -24,7 +24,7 @@ http:
         stspreload: true
         forcestsheader: true
         referrerpolicy: same-origin
-        featurepolicy: camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none';
+        permissionsPolicy: "interest-cohort=(), geolocation=(), camera=(), microphone=(), payment=(), usb=(), vr=()"
 
     remove-headers:
       headers:
