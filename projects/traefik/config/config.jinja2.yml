@@ -10,10 +10,9 @@ http:
     internal-whitelist:
       ipWhiteList:
         sourceRange:
-          - "10.1.0.0/24"
-          - "10.2.0.0/24"
-          - "10.3.0.0/24"
-          - "10.5.0.0/24"
+{%- for ip in global.internal_ips %}
+          - "{{ ip }}"
+{%- endfor %}
 
     security-headers:
       headers:
