@@ -12,7 +12,7 @@ restart_gitlab() {
 
 create_backup() {
     log "Creating backup"
-    log "$(/usr/local/bin/docker exec gitlab gitlab-backup create 2>&1)"
+    log "$(sudo /usr/local/bin/docker exec gitlab gitlab-backup create 2>&1)"
 }
 
 log "Starting backup Gitlab"
