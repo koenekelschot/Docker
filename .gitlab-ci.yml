@@ -57,7 +57,7 @@ shell check:
     - shellcheck ./deploy.sh
     - shellcheck ./post-deploy.sh
     - shellcheck ./validate-nginx.sh
-    - shellcheck ./cron/*
+    - shellcheck ./cron/*.sh
     - for file in $(find ./projects -type f -name '*.sh'); do shellcheck $file; done;
 
 validate docker-compose:
