@@ -23,8 +23,6 @@ website-koen:
     - "traefik.http.routers.website-koen.entrypoints=external"
     - "traefik.http.routers.website-koen.rule=Host(`{{ websites.subdomain_koen }}.{{ global.external.domain }}`)"
     - "traefik.http.routers.website-koen.tls=true"
-    - "traefik.http.middlewares.website-koen-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
-    - "traefik.http.routers.website-koen.middlewares=website-koen-geoip@docker"
 website-paul:
   container_name: website-paul
   image: nginx:alpine
@@ -49,5 +47,3 @@ website-paul:
     - "traefik.http.routers.website-paul.entrypoints=external"
     - "traefik.http.routers.website-paul.rule=Host(`{{ websites.subdomain_paul }}.{{ global.external.domain }}`)"
     - "traefik.http.routers.website-paul.tls=true"
-    - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
-    - "traefik.http.routers.website-paul.middlewares=website-paul-geoip@docker"

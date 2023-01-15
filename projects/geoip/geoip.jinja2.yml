@@ -14,12 +14,3 @@ geoip:
     test: ls /usr/share/GeoIP/GeoLite2-City.mmdb >/dev/null && exit 0 || exit 1
     interval: 10s
     timeout: 5s
-geoip-auth:
-  image: thelastproject/simplegeoipforwardauth:latest
-  container_name: geoip-auth
-  network_mode: host
-  volumes:
-    - {{ global.docker_volume }}/geoip:/db:ro
-  restart: unless-stopped
-  ports:
-    - 8000:8000

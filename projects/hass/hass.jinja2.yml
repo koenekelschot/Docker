@@ -35,6 +35,3 @@ homeassistant:
     - "traefik.http.routers.hass-external.entrypoints=external"
     - "traefik.http.routers.hass-external.rule=Host(`{{ hass.subdomain }}.{{ global.external.domain }}`)"
     - "traefik.http.routers.hass-external.tls=true"
-    # Allow NL, internal IPs, and Toon
-    - "traefik.http.middlewares.hass-geoip.forwardauth.address=http://localhost:8000/?locations=NL&ips={{ (global.internal_ips + hass.allowed_external_ips)|join(',') }}"
-    - "traefik.http.routers.hass-external.middlewares=hass-geoip@docker"
