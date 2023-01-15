@@ -12,12 +12,11 @@ traefik:
     - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.maxBodySize=10485760"
   environment:
     - TZ={{ global.timezone }}
-    - {{ letsencrypt.username.key }}={{ letsencrypt.username.value }}
-    - {{ letsencrypt.private_key_path }}=letsencrypt.key
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volume }}/../letsencrypt.key:/letsencrypt.key:ro
+    - {{ global.docker_volume }}/../certificates/cloudflare-origin.key:/etc/certs/cloudflare-origin.key:ro
+    - {{ global.docker_volume }}/../certificates/cloudflare-origin.pem:/etc/certs/cloudflare-origin.pem:ro
     - {{ global.docker_volume }}/traefik/acme:/etc/traefik/acme
     - {{ global.docker_volume }}/traefik/config:/etc/traefik
     - {{ global.docker_volume }}/traefik/logs:/var/logs

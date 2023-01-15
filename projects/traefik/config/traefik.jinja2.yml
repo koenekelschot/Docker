@@ -22,14 +22,6 @@ entryPoints:
       middlewares:
         - default-external@file
 
-certificatesResolvers:
-  letsencrypt:
-    acme:
-      email: {{ letsencrypt.email }}
-      storage: /etc/traefik/acme/acme.json
-      dnsChallenge:
-        provider: {{ letsencrypt.provider }}
-
 log:
   filePath: "/var/logs/traefik.log"
   level: INFO

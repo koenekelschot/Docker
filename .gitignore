@@ -4,4 +4,5 @@ volumes/*
 !volumes/readme.md
 .env
 env.json
-letsencrypt.key
+certificates/*
+!certificates/*.fake

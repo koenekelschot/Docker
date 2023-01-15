@@ -5,7 +5,6 @@ fix_dsm() {
 }
 
 echo "Deploy traefik"
-ensure_folder_exists {{ global.docker_volume }}/traefik/acme
 ensure_folder_exists {{ global.docker_volume }}/traefik/config
 ensure_folder_exists {{ global.docker_volume }}/traefik/logs
 ensure_folder_exists {{ global.docker_volume }}/traefik/waf/logs/nginx
