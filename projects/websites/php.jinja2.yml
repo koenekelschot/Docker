@@ -7,7 +7,7 @@ php-fpm:
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{ global.docker_volume }}/websites/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf:ro
-    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/var/www/html
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_koen }}.{{ global.external.domain }}/public:/var/www/html
   ports:
     - 9000:9000
   healthcheck:

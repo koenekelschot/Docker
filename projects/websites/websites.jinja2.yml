@@ -9,9 +9,9 @@ website-koen:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/config:/etc/nginx/conf.d:ro
-    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/logs:/var/log/nginx
-    - {{ global.docker_volume }}/websites/{{ websites.domain_koen }}/public:/usr/share/nginx/html:ro
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_koen }}.{{ global.external.domain }}/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_koen }}.{{ global.external.domain }}/logs:/var/log/nginx
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_koen }}.{{ global.external.domain }}/public:/usr/share/nginx/html:ro
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost/"]
     interval: 30s
@@ -21,7 +21,7 @@ website-koen:
     - "traefik.enable=true"
     - "traefik.http.services.website-koen.loadbalancer.server.port=80"
     - "traefik.http.routers.website-koen.entrypoints=external"
-    - "traefik.http.routers.website-koen.rule=Host(`{{ websites.domain_koen }}`)"
+    - "traefik.http.routers.website-koen.rule=Host(`{{ websites.subdomain_koen }}.{{ global.external.domain }}`)"
     - "traefik.http.routers.website-koen.tls=true"
     - "traefik.http.middlewares.website-koen-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
     - "traefik.http.routers.website-koen.middlewares=website-koen-geoip@docker"
@@ -35,9 +35,9 @@ website-paul:
     - TZ={{ global.timezone }}
   volumes:
     - /etc/localtime:/etc/localtime:ro
-    - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/config:/etc/nginx/conf.d:ro
-    - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/logs:/var/log/nginx
-    - {{ global.docker_volume }}/websites/{{ websites.domain_paul }}/public:/usr/share/nginx/html:ro
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_paul }}.{{ global.external.domain }}/config:/etc/nginx/conf.d:ro
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_paul }}.{{ global.external.domain }}/logs:/var/log/nginx
+    - {{ global.docker_volume }}/websites/{{ websites.subdomain_paul }}.{{ global.external.domain }}/public:/usr/share/nginx/html:ro
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost/"]
     interval: 30s
@@ -47,7 +47,7 @@ website-paul:
     - "traefik.enable=true"
     - "traefik.http.services.website-paul.loadbalancer.server.port=80"
     - "traefik.http.routers.website-paul.entrypoints=external"
-    - "traefik.http.routers.website-paul.rule=Host(`{{ websites.domain_paul }}`)"
+    - "traefik.http.routers.website-paul.rule=Host(`{{ websites.subdomain_paul }}.{{ global.external.domain }}`)"
     - "traefik.http.routers.website-paul.tls=true"
     - "traefik.http.middlewares.website-paul-geoip.forwardauth.address=http://localhost:8000/?locations={{ websites.allowed_countries|join(';') }}&ips={{ global.internal_ips|join(',') }}"
     - "traefik.http.routers.website-paul.middlewares=website-paul-geoip@docker"

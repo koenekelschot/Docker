@@ -35,6 +35,21 @@ whoami:
     - "traefik.http.routers.whoami.entrypoints=internal"
     - "traefik.http.routers.whoami.rule=Host(`whoami.{{ global.server.domain }}`)"
     - "traefik.http.services.whoami.loadbalancer.server.port=80"
+traefik-cloudflare-companion:
+  image: tiredofit/traefik-cloudflare-companion:latest
+  container_name: cloudflare-companion
+  restart: unless-stopped
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+  environment:
+    - TIMEZONE={{ global.timezone }}
+    - TRAEFIK_VERSION=2
+    - CF_EMAIL=
+    - CF_TOKEN={{ cloudflare.api_token }}
+    - TARGET_DOMAIN={{ global.external.domain }}
+    - DOMAIN1={{ global.external.domain }}
+    - DOMAIN1_ZONE_ID={{ cloudflare.zone_id }}
+    - DOMAIN1_PROXIED=TRUE
 waf:
   image: owasp/modsecurity-crs:nginx-alpine
   container_name: waf
