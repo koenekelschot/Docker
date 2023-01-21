@@ -5,7 +5,6 @@ traefik:
   depends_on:
     - waf
   labels:
-    - "com.centurylinklabs.watchtower.enable=false"
     - "traefik.enable=true"
     - "traefik.http.services.traefik.loadbalancer.server.port=8080"
     - "traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.modSecurityUrl=http://localhost:81"
