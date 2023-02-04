@@ -1,5 +1,5 @@
 fail2ban:
-  image: crazymax/fail2ban:0.11.2
+  image: crazymax/fail2ban:1.0.2
   container_name: fail2ban
   environment:
     - TZ={{ global.timezone }}
