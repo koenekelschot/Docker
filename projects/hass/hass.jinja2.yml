@@ -10,8 +10,6 @@ homeassistant:
     - PGID={{ global.group_id }}
     - TZ={{ global.timezone }}
   network_mode: host
-  ports:
-    - 8123:8123
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{ global.docker_volume }}/homeassistant/config:/config

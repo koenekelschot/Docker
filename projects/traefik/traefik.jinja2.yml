@@ -20,10 +20,6 @@ traefik:
     - {{ global.docker_volume }}/traefik/logs:/var/logs
     - {{ global.docker_volume }}/geoip:/var/lib/geoip2:ro
   restart: unless-stopped
-  ports:
-    - 80:80
-    - 443:443
-    - 8080:8080
 whoami:
   image: traefik/whoami
   container_name: whoami

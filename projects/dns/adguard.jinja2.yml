@@ -7,9 +7,6 @@ adguard:
     - {{ global.docker_volume }}/adguard/data:/opt/adguardhome/work
     - {{ global.docker_volume }}/adguard/config:/opt/adguardhome/conf
   network_mode: host
-  ports:
-    - 53:53
-    - 443:443
   healthcheck:
     test: pgrep adguardhome >/dev/null && exit 0 || exit 1
     interval: 15s
