@@ -19,7 +19,7 @@ log "Starting backup Gitlab"
 /usr/local/bin/docker exec gitlab gitlab-ctl stop puma
 /usr/local/bin/docker exec gitlab gitlab-ctl stop sidekiq
 output=$(create_backup)
-if [[ $output == *"Rails Error"* ]]; then
+if [[ $output == *"Permission denied"* ]]; then
     log "Gitlab (permission) error, restarting first"
     restart_gitlab
     log "Waiting until container is started"
