@@ -6,7 +6,6 @@ esphome:
     - PUID={{ global.user_id }}
     - PGID={{ global.group_id }}
     - TZ={{ global.timezone }}
-  network_mode: host
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{ global.docker_volume }}/esphome:/config

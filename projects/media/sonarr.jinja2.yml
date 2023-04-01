@@ -8,12 +8,12 @@ sonarr:
     - PUID={{ global.user_id }}
     - PGID={{ global.group_id }}
     - TZ={{ global.timezone }}
+  network_mode: service:nordvpn
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{ global.docker_volume }}/sonarr:/config
     - {{ global.media_folder }}/Series:/series
     - {{ global.downloads_folder }}:/downloads
-  network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:8989/"]
     interval: 30s

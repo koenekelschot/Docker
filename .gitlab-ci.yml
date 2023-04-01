@@ -62,7 +62,7 @@ shell check:
 
 validate docker-compose:
   stage: test
-  image: docker/compose:1.29.2
+  image: docker/compose:1.28.5
   dependencies: 
     - build
   variables:

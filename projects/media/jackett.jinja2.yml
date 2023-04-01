@@ -8,11 +8,11 @@ jackett:
     - PUID={{ global.user_id }}
     - PGID={{ global.group_id }}
     - TZ={{ global.timezone }}
+  network_mode: service:nordvpn
   volumes:
     - /etc/localtime:/etc/localtime:ro
     - {{ global.downloads_folder }}/torrents:/torrents
     - {{ global.docker_volume }}:/config  # Jackett is appended
-  network_mode: service:nordvpn
   healthcheck:
     test: ["CMD", "curl", "-f", "http://localhost:9117/"]
     interval: 30s
