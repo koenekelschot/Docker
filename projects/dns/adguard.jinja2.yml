@@ -1,6 +1,6 @@
 adguard:
   container_name: adguard
-  image: adguard/adguardhome:v0.107.23
+  image: adguard/adguardhome:v0.107.27
   restart: unless-stopped
   volumes:
     - /etc/localtime:/etc/localtime:ro
