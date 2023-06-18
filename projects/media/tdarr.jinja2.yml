@@ -1,0 +1,27 @@
+tdarr:
+  container_name: tdarr
+  image: ghcr.io/haveagitgat/tdarr:latest
+  restart: unless-stopped
+  environment:
+    - PUID={{ global.user_id }}
+    - PGID={{ global.group_id }}
+    - TZ={{ global.timezone }}
+    - UMASK_SET=002
+    - serverIP=0.0.0.0
+    - serverPort=8266
+    - webUIPort=8265
+    - internalNode=true
+    - inContainer=true
+    - nodeName=MyInternalNode
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - {{ global.docker_volume }}/tdarr/server:/app/server
+    - {{ global.docker_volume }}/tdarr/configs:/app/configs
+    - {{ global.docker_volume }}/tdarr/logs:/app/logs
+    - {{ global.media_folder }}/transcode:/media
+    - {{ global.media_folder }}/transcode_cache:/temp
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.tdarr.entrypoints=internal"
+    - "traefik.http.routers.tdarr.rule=Host(`transcode.{{ global.server.domain }}`)"
+    - "traefik.http.services.tdarr.loadbalancer.server.port=8265"

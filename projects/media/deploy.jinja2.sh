@@ -6,3 +6,9 @@ ensure_folder_exists {{ global.docker_volume }}/bazarr
 ensure_folder_exists {{ global.docker_volume }}/deluge
 ensure_folder_exists {{ global.docker_volume }}/radarr
 ensure_folder_exists {{ global.docker_volume }}/sonarr
+ensure_folder_exists {{ global.docker_volume }}/tdarr
+ensure_folder_exists {{ global.docker_volume }}/tdarr/server
+ensure_folder_exists {{ global.docker_volume }}/tdarr/configs
+ensure_folder_exists {{ global.docker_volume }}/tdarr/logs
+ensure_folder_exists {{ global.media_folder }}/transcode
+ensure_folder_exists {{ global.media_folder }}/transcode_cache
