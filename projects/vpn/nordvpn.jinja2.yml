@@ -1,6 +1,6 @@
 nordvpn:
   container_name: nordvpn
-  image: bubuntux/nordvpn:v3.9.1  # https://github.com/bubuntux/nordvpn/discussions/202
+  image: azinchen/nordvpn:2.9.0
   depends_on:
     - adguard
   restart: unless-stopped
@@ -8,8 +8,8 @@ nordvpn:
     - TZ={{ global.timezone }}
     - USER={{ vpn.user }}
     - PASS={{ vpn.pass }}
-    - TECHNOLOGY={{ vpn.technology }}
-    - CONNECT={{ vpn.connect }}
+    - GROUP={{ vpn.group }}
+    - NETWORK={{ vpn.network }}
   networks:
     vpn_net:
   cap_add:
