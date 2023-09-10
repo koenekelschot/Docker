@@ -48,8 +48,6 @@ waf:
   image: owasp/modsecurity-crs:nginx-alpine
   container_name: waf
   network_mode: host
-  depends_on:
-    - adguard
     - waf-backend
   restart: unless-stopped
   environment:

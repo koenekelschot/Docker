@@ -1,8 +1,6 @@
 nordvpn:
   container_name: nordvpn
   image: azinchen/nordvpn:2.9.0
-  depends_on:
-    - adguard
   restart: unless-stopped
   environment:
     - TZ={{ global.timezone }}
