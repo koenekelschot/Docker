@@ -1,6 +1,6 @@
 homeassistant:
   container_name: homeassistant
-  image: homeassistant/home-assistant:{{ hass_version }}
+  image: ghcr.io/home-assistant/home-assistant:{{ hass_version }}
   depends_on:
     - deconz
   restart: unless-stopped
