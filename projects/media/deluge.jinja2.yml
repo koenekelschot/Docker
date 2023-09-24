@@ -1,6 +1,6 @@
 deluge:
   container_name: deluge
-  image: linuxserver/deluge:latest
+  image: lscr.io/linuxserver/deluge:latest
   depends_on:
     - nordvpn
   restart: unless-stopped

@@ -1,6 +1,6 @@
 bazarr:
   container_name: bazarr
-  image: linuxserver/bazarr:latest
+  image: lscr.io/linuxserver/bazarr:latest
   depends_on:
     - nordvpn
   restart: unless-stopped

@@ -1,6 +1,6 @@
 jackett:
   container_name: jackett
-  image: linuxserver/jackett:latest
+  image: lscr.io/linuxserver/jackett:latest
   depends_on:
     - nordvpn
   restart: unless-stopped

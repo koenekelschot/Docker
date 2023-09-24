@@ -1,6 +1,6 @@
 radarr:
   container_name: radarr
-  image: linuxserver/radarr:latest
+  image: lscr.io/linuxserver/radarr:latest
   depends_on:
     - nordvpn
   restart: unless-stopped
