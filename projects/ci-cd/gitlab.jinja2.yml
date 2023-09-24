@@ -1,5 +1,5 @@
 gitlab:
-  image: gitlab/gitlab-ce:15.10.2-ce.0
+  image: gitlab/gitlab-ce:16.3.4-ce.0
   container_name: gitlab
   hostname: gitlab.{{ global.server.domain }}
   environment:
