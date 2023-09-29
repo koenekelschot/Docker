@@ -1,0 +1,14 @@
+registry:
+  image: registry:2.8.2
+  container_name: registry
+  labels:
+    - "traefik.enable=false"
+  environment:
+    - TZ={{ global.timezone }}
+    - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/data
+  ports:
+    - 5000:5000
+  volumes:
+    - /etc/localtime:/etc/localtime:ro
+    - {{ global.docker_volume }}/registry:/data
+  restart: unless-stopped

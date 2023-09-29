@@ -1,0 +1,7 @@
+{
+    "data-root" : "/var/packages/Docker/target/docker",
+    "log-driver" : "db",
+    "registry-mirrors" : [],
+    "storage-driver" : "aufs",
+    "insecure-registries" : ["10.0.50.2:5000"]
+}
